@@ -202,7 +202,6 @@ class EmployesProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      print(e.toString());
       return false;
     } finally {
       loading = false;
@@ -224,7 +223,6 @@ class EmployesProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      print(e.toString());
       return false;
     } finally {
       loadingHours = false;

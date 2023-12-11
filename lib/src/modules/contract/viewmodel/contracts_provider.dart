@@ -173,7 +173,6 @@ class ContractsProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      print(e.toString());
       return false;
     } finally {
       loadingHours = false;
@@ -362,8 +361,6 @@ class ContractsProvider extends ChangeNotifier {
         {},
       );
     } catch (e) {
-      return;
-    } finally {
       return;
     }
   }
