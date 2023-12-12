@@ -3,9 +3,8 @@ import 'package:marcacion_admin/src/common/helpers/helpers.dart';
 import 'package:marcacion_admin/src/common/services/services.dart';
 
 class GoBackWidget extends StatelessWidget {
-  const GoBackWidget({
-    super.key,
-  });
+  const GoBackWidget({super.key, this.functionn});
+  final Function? functionn;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +12,11 @@ class GoBackWidget extends StatelessWidget {
       width: 200,
       child: InkWell(
         onTap: () {
-          NavigationService.goBack();
+          if (functionn != null) {
+            functionn!();
+          } else {
+            NavigationService.goBack();
+          }
         },
         child: Row(
           children: [

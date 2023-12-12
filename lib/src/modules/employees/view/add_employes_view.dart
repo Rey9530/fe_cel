@@ -126,6 +126,9 @@ class _FormewEmployeWidget extends StatelessWidget {
                     onChange: (valor) {
                       // provider.validarInput();
                     },
+                    validaciones: const [
+                      minLength5,
+                    ],
                   ),
                 ),
                 Container(
@@ -140,6 +143,9 @@ class _FormewEmployeWidget extends StatelessWidget {
                     onChange: (valor) {
                       // provider.validarInput();
                     },
+                    validaciones: const [
+                      minLength5,
+                    ],
                   ),
                 ),
                 Container(
@@ -153,6 +159,9 @@ class _FormewEmployeWidget extends StatelessWidget {
                         filter: {"#": RegExp(r'[0-9]')},
                         type: MaskAutoCompletionType.lazy,
                       ),
+                    ],
+                    validaciones: const [
+                      validationIsDate,
                     ],
                     isDark: true,
                     label: "Fecha de nacimiento",
@@ -284,6 +293,9 @@ class _FormewEmployeWidget extends StatelessWidget {
                     isDark: true,
                     label: "Fecha de inicio",
                     hinText: '00/00/0000',
+                    validaciones: const [
+                      validationIsDate,
+                    ],
                     inputFormatters: [
                       MaskTextInputFormatter(
                         mask: '##/##/####',
@@ -321,6 +333,9 @@ class _FormewEmployeWidget extends StatelessWidget {
                     isDark: true,
                     label: "Fecha de fin",
                     hinText: '00/00/0000',
+                    validaciones: const [
+                      validationIsDate,
+                    ],
                     inputFormatters: [
                       MaskTextInputFormatter(
                         mask: '##/##/####',
@@ -384,6 +399,7 @@ class SelectHoursWidget extends StatelessWidget {
     return provider.loadingHours
         ? const CircularProgressIndicator()
         : SelectCompaniesWidget(
+            isRequired: false,
             controller: provider.employeHours,
             title: 'Horario',
             selected: DropdownButtonData(

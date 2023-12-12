@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:marcacion_admin/src/common/helpers/helpers.dart';
 import 'package:marcacion_admin/src/common/models/dropdown_buttom_data_model.dart';
+import 'package:marcacion_admin/src/common/services/services.dart';
 import 'package:marcacion_admin/src/common/widgets/widgets.dart';
 import 'package:marcacion_admin/src/modules/contract/viewmodel/contracts_provider.dart';
+import 'package:marcacion_admin/src/routes/router.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
@@ -42,9 +44,13 @@ class AddContractsBodyWidget extends StatelessWidget {
                 'Contratos / ${provider.uuid != null ? "Actualizar" : "Crear"} contrato',
           ),
           const SizedBox(height: 50),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40),
-            child: GoBackWidget(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: GoBackWidget(
+              functionn: () {
+                NavigationService.replaceTo(Flurorouter.contractsRoute);
+              },
+            ),
           ),
           const SizedBox(height: 30),
           const Padding(
@@ -90,6 +96,9 @@ class _FormewContractsWidget extends StatelessWidget {
                     label: "Nombre del contrato",
                     hinText: 'Escribe el nombre para tu contrato',
                     controller: provider.contractName,
+                    validaciones: const [
+                      minLength5,
+                    ],
                     onChange: (valor) {
                       // provider.validarInput();
                     },
@@ -106,6 +115,9 @@ class _FormewContractsWidget extends StatelessWidget {
                     label: "Número de contrato",
                     hinText: 'Escribe el número de contrato',
                     controller: provider.contractsNumber,
+                    validaciones: const [
+                      minLength5,
+                    ],
                     onChange: (valor) {
                       // provider.validarInput();
                     },
@@ -122,6 +134,9 @@ class _FormewContractsWidget extends StatelessWidget {
                         filter: {"#": RegExp(r'[0-9]')},
                         type: MaskAutoCompletionType.lazy,
                       ),
+                    ],
+                    validaciones: const [
+                      validationIsDate,
                     ],
                     isDark: true,
                     label: "Fecha de inicio",
@@ -156,6 +171,9 @@ class _FormewContractsWidget extends StatelessWidget {
                         filter: {"#": RegExp(r'[0-9]')},
                         type: MaskAutoCompletionType.lazy,
                       ),
+                    ],
+                    validaciones: const [
+                      validationIsDate,
                     ],
                     isDark: true,
                     label: "Fecha de fin",
@@ -241,6 +259,9 @@ class _FormewContractsWidget extends StatelessWidget {
                           type: MaskAutoCompletionType.lazy,
                         ),
                       ],
+                      validaciones: const [
+                        validationIsDate,
+                      ],
                       controller: provider.startDateExtendable,
                       onChange: (valor) async {},
                       suffixIcon: InkWell(
@@ -278,6 +299,9 @@ class _FormewContractsWidget extends StatelessWidget {
                           filter: {"#": RegExp(r'[0-9]')},
                           type: MaskAutoCompletionType.lazy,
                         ),
+                      ],
+                      validaciones: const [
+                        validationIsDate,
                       ],
                       controller: provider.endDateExtendable,
                       onChange: (valor) async {},

@@ -3,6 +3,7 @@ import 'package:marcacion_admin/src/common/helpers/helpers.dart';
 import 'package:marcacion_admin/src/common/widgets/widgets.dart';
 import 'package:marcacion_admin/src/modules/companies/model/companies_dts.dart';
 import 'package:marcacion_admin/src/modules/companies/viewmodel/companies_provider.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
 class CompaniesView extends StatelessWidget {
@@ -93,11 +94,12 @@ class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
                 width: 600,
                 child: TextFormFieldCustomWidget(
                   isDark: true,
-                  // onFieldSubmitted: (_) => onFormSubmit(providerAuth),
-                  // cursorColor: Colors.white,
                   label: "Nombre de la empresa",
                   hinText: 'Escribe el nombre de la empresa',
                   controller: provider.companyName,
+                  validaciones: const [
+                    minLength5,
+                  ],
                   onChange: (valor) {
                     provider.validarInput();
                   },
@@ -108,11 +110,12 @@ class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
                 width: 350,
                 child: TextFormFieldCustomWidget(
                   isDark: true,
-                  // onFieldSubmitted: (_) => onFormSubmit(providerAuth),
-                  // cursorColor: Colors.white,
                   label: "Dirección de la empresa",
                   hinText: 'Escribe el la dirección de la empresa',
                   controller: provider.companyAdress,
+                  validaciones: const [
+                    minLength5,
+                  ],
                   onChange: (valor) {
                     provider.validarInput();
                   },
@@ -123,10 +126,11 @@ class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
                 width: 350,
                 child: TextFormFieldCustomWidget(
                   isDark: true,
-                  // onFieldSubmitted: (_) => onFormSubmit(providerAuth),
-                  // cursorColor: Colors.white,
                   label: "Persona de contacto",
                   hinText: 'Escribe el nombre de la persona a contactar ',
+                  validaciones: const [
+                    minLength5,
+                  ],
                   controller: provider.companyContact,
                   onChange: (valor) {
                     provider.validarInput();
@@ -138,12 +142,13 @@ class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
                 width: 600,
                 child: TextFormFieldCustomWidget(
                   isDark: true,
-                  // onFieldSubmitted: (_) => onFormSubmit(providerAuth),
-                  // cursorColor: Colors.white,
                   label: "Correo electrónico",
                   hinText:
                       'Escribe el correo de la persona de la empresa a contactar',
                   controller: provider.companyEmail,
+                  validaciones: const [
+                    validationIsEmail,
+                  ],
                   onChange: (valor) {
                     provider.validarInput();
                   },
@@ -154,10 +159,18 @@ class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
                 width: 350,
                 child: TextFormFieldCustomWidget(
                   isDark: true,
-                  // onFieldSubmitted: (_) => onFormSubmit(providerAuth),
-                  // cursorColor: Colors.white,
                   label: "Teléfono de contacto",
-                  hinText: 'Escribe el teléfono de la persona de contacto ',
+                  hinText: '+503 #### ####',
+                  validaciones: const [
+                    minLength10,
+                  ],
+                  inputFormatters: [
+                    MaskTextInputFormatter(
+                      mask: '+503 I### ####',
+                      filter: {"#": RegExp(r'[0-9]'), "I": RegExp(r'[2|6|7]')},
+                      type: MaskAutoCompletionType.lazy,
+                    ),
+                  ],
                   controller: provider.companyPhone,
                   onChange: (valor) {
                     provider.validarInput();

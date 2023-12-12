@@ -24,6 +24,7 @@ class TextFormFieldCustomWidget extends StatefulWidget {
     this.textAlign = TextAlign.start,
     this.floatingLabelBehavior = FloatingLabelBehavior.always,
     this.inputFormatters,
+    this.validaciones,
   });
   final FontWeight fontWeight;
   final TextAlign textAlign;
@@ -43,6 +44,7 @@ class TextFormFieldCustomWidget extends StatefulWidget {
   final FloatingLabelBehavior? floatingLabelBehavior;
   final Widget? suffixIcon;
   final List<TextInputFormatter>? inputFormatters;
+  final List<Function(String)>? validaciones;
   @override
   State<TextFormFieldCustomWidget> createState() =>
       _TextFormFieldCustomWidgetState();
@@ -84,10 +86,19 @@ class _TextFormFieldCustomWidgetState extends State<TextFormFieldCustomWidget> {
       focusNode: _focus,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (String? valor) {
-        var data = (valor == null || valor.isEmpty)
-            ? "Este campo es requerido "
-            : null;
-        return data;
+        if (valor == null || valor.isEmpty) {
+          return "Este campo es requerido ";
+        }
+        if (widget.validaciones != null && widget.validaciones!.isNotEmpty) {
+          for (var i = 0; i < widget.validaciones!.length; i++) {
+            var functionn = widget.validaciones![i];
+            var respValidacion = functionn(valor);
+            if (respValidacion != null) {
+              return respValidacion;
+            }
+          }
+        }
+        return null;
       },
       onChanged: (valor) {
         setState(() {

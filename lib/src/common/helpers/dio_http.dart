@@ -18,13 +18,41 @@ class DioConexion {
 
   static Future get_(String endpoint,
       [Map<String, dynamic>? queryParameters]) async {
-    Response response;
-    response = await _dio.get(
-      endpoint,
-      queryParameters: queryParameters,
-    );
-    // await Future.delayed(const Duration(seconds: 2));
-    return response.data;
+    try {
+      Response response = await _dio.get(
+        endpoint,
+        queryParameters: queryParameters,
+      );
+      return response.data;
+    } on DioException catch (e) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx and is also not 304.
+      ErrorResponse msg;
+      if (e.response != null) {
+        if (e.response?.data != null) {
+          msg = ErrorResponse.fromJson(e.response?.data);
+          NotificationsService.showSnackbarError(msg.message);
+        } else {
+          msg = ErrorResponse(
+            time: DateTime.now(),
+            path: endpoint,
+            data: "Error al generar la peticion",
+            message: '',
+            status: 500,
+          );
+        }
+      } else {
+        msg = ErrorResponse(
+          time: DateTime.now(),
+          path: endpoint,
+          data: "Error al generar la peticion",
+          message: '',
+          status: 500,
+        );
+      }
+      NotificationsService.showSnackbarError(msg.message);
+      return msg;
+    }
   }
 
   static Future post_(String endpoint, dynamic data) async {
@@ -36,17 +64,31 @@ class DioConexion {
     } on DioException catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
+      ErrorResponse msg;
       if (e.response != null) {
         if (e.response?.data != null) {
-          var msg = ErrorResponse.fromJson(e.response?.data);
+          msg = ErrorResponse.fromJson(e.response?.data);
           NotificationsService.showSnackbarError(msg.message);
         } else {
-          NotificationsService.showSnackbarError(
-              "Ooops, ha ocurrido un error, favor intentarlo mas tarde.");
+          msg = ErrorResponse(
+            time: DateTime.now(),
+            path: endpoint,
+            data: "Error al generar la peticion",
+            message: '',
+            status: 500,
+          );
         }
+      } else {
+        msg = ErrorResponse(
+          time: DateTime.now(),
+          path: endpoint,
+          data: "Error al generar la peticion",
+          message: '',
+          status: 500,
+        );
       }
-
-      return 'Error en el POST11';
+      NotificationsService.showSnackbarError(msg.message);
+      return msg;
     }
   }
 
@@ -59,15 +101,31 @@ class DioConexion {
     } on DioException catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
+      ErrorResponse msg;
       if (e.response != null) {
         if (e.response?.data != null) {
-          var msg = ErrorResponse.fromJson(e.response?.data);
+          msg = ErrorResponse.fromJson(e.response?.data);
           NotificationsService.showSnackbarError(msg.message);
         } else {
-          NotificationsService.showSnackbarError(
-              "Ooops, ha ocurrido un error, favor intentarlo mas tarde.");
+          msg = ErrorResponse(
+            time: DateTime.now(),
+            path: endpoint,
+            data: "Error al generar la peticion",
+            message: '',
+            status: 500,
+          );
         }
+      } else {
+        msg = ErrorResponse(
+          time: DateTime.now(),
+          path: endpoint,
+          data: "Error al generar la peticion",
+          message: '',
+          status: 500,
+        );
       }
+      NotificationsService.showSnackbarError(msg.message);
+      return msg;
     }
   }
 
@@ -80,15 +138,31 @@ class DioConexion {
     } on DioException catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
+      ErrorResponse msg;
       if (e.response != null) {
         if (e.response?.data != null) {
-          var msg = ErrorResponse.fromJson(e.response?.data);
+          msg = ErrorResponse.fromJson(e.response?.data);
           NotificationsService.showSnackbarError(msg.message);
         } else {
-          NotificationsService.showSnackbarError(
-              "Ooops, ha ocurrido un error, favor intentarlo mas tarde.");
+          msg = ErrorResponse(
+            time: DateTime.now(),
+            path: endpoint,
+            data: "Error al generar la peticion",
+            message: '',
+            status: 500,
+          );
         }
+      } else {
+        msg = ErrorResponse(
+          time: DateTime.now(),
+          path: endpoint,
+          data: "Error al generar la peticion",
+          message: '',
+          status: 500,
+        );
       }
+      NotificationsService.showSnackbarError(msg.message);
+      return msg;
     }
   }
 }

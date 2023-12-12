@@ -135,7 +135,7 @@ class EmployesProvider extends ChangeNotifier {
         }
       } else {
         var res = await DioConexion.post_('/employes', data);
-        if (res['status'] == 200) {
+        if (res['status'] == 201) {
           NotificationsService.showSnackbarSuccess("Empleado Creada");
           NavigationService.goBack();
         }

@@ -145,6 +145,7 @@ class ContractsProvider extends ChangeNotifier {
       NavigationService.replaceTo(Flurorouter.contractsRoute);
     }
     await getDays();
+    await getSchedules();
   }
 
   loadToEmployes(uui) async {
@@ -200,7 +201,7 @@ class ContractsProvider extends ChangeNotifier {
           "page": 1,
           "quantity": 10,
           "query": query,
-          "company": company,
+          "company": company.text,
         },
       );
       final response = EmployesContractResponse.fromJson(resp);
@@ -286,6 +287,20 @@ class ContractsProvider extends ChangeNotifier {
       final resp = await DioConexion.get_('/contracts/get/companies');
       final response = CompaniesResponse.fromJson(resp);
       companies = response.data;
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  List<ListHoursCtr> schedules = [];
+  Future<bool> getSchedules() async {
+    try {
+      final resp = await DioConexion.get_('/contracts/list/schedule/$uuid');
+      final response = ListHoursCtrResponse.fromJson(resp);
+      schedules = response.data;
       return true;
     } catch (e) {
       return false;

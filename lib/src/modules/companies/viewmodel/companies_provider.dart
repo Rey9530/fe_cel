@@ -77,20 +77,27 @@ class CompaniesProvider extends ChangeNotifier {
         "empre_contacto_telefono": companyPhone.text,
       };
       if (id != null) {
-        await DioConexion.put_('/companies/$id', data);
+        var resp = await DioConexion.put_('/companies/$id', data);
 
-        NotificationsService.showSnackbarSuccess("Empresa Actualizada");
+        if (resp["status"] == 200) {
+          limpiar();
+          NotificationsService.showSnackbarSuccess("Empresa Actualizada");
+          await getCompanies();
+        }
       } else {
-        await DioConexion.post_('/companies', data);
-        NotificationsService.showSnackbarSuccess("Empresa Creada");
+        var resp = await DioConexion.post_('/companies', data);
+        if (resp["status"] == 201) {
+          limpiar();
+          NotificationsService.showSnackbarSuccess("Empresa Creada");
+          await getCompanies();
+        }
       }
-      await getCompanies();
       return true;
     } catch (e) {
       return false;
     } finally {
       loading = false;
-      limpiar();
+      notifyListeners();
     }
   }
 
