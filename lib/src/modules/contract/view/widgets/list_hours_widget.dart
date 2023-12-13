@@ -15,18 +15,9 @@ class ListHoursWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<ContractsProvider>(context);
-    return Column(
+    return const Column(
       children: [
-        const ItemHoursWidget(),
-        BtnWidget(
-          width: 200,
-          loading: provider.loading,
-          title: "Continuar",
-          onPress: () async {
-            await provider.saveScheduleContract();
-          },
-        )
+        ItemHoursWidget(),
       ],
     );
   }
@@ -44,7 +35,7 @@ class ItemHoursWidget extends StatelessWidget {
       children: [
         Container(
           width: 975,
-          height: 600,
+          height: 650,
           alignment: Alignment.center,
           margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
           padding: const EdgeInsets.only(top: 30),
@@ -56,11 +47,23 @@ class ItemHoursWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
             shape: BoxShape.rectangle,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Column(
             children: [
-              for (var day in provider.schedule) DayItemWidget(item: day),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  for (var day in provider.schedule) DayItemWidget(item: day),
+                ],
+              ),
+              BtnWidget(
+                width: 200,
+                loading: provider.loading,
+                title: "Continuar",
+                onPress: () async {
+                  await provider.saveScheduleContract();
+                },
+              )
             ],
           ),
         ),

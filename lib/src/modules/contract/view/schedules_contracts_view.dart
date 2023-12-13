@@ -34,7 +34,7 @@ class SchedulesBodyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<ContractsProvider>(context, listen: false);
+    var provider = Provider.of<ContractsProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(20),
       child: ListView(
@@ -65,9 +65,10 @@ class SchedulesBodyWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 50),
+          const ListHoursWidgets(),
+          const SizedBox(height: 50),
           for (var schedule in provider.schedules)
             EditListHoursWidgets(schedule: schedule),
-          const ListHoursWidgets(),
         ],
       ),
     );

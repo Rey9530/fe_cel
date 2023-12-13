@@ -16,20 +16,11 @@ class EditListHoursWidgets extends StatelessWidget {
   final ListHoursCtr schedule;
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<ContractsProvider>(context);
     return Column(
       children: [
         _ItemHoursWidget(
           schedule: schedule,
         ),
-        BtnWidget(
-          width: 200,
-          loading: provider.loading,
-          title: "Continuar",
-          onPress: () async {
-            await provider.updateScheduleContract(schedule);
-          },
-        )
       ],
     );
   }
@@ -43,12 +34,12 @@ class _ItemHoursWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var provider = Provider.of<ContractsProvider>(context, listen: false);
+    var provider = Provider.of<ContractsProvider>(context);
     return Stack(
       children: [
         Container(
           width: 975,
-          height: 600,
+          height: 575,
           alignment: Alignment.center,
           margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
           padding: const EdgeInsets.only(top: 30),
@@ -60,12 +51,69 @@ class _ItemHoursWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
             shape: BoxShape.rectangle,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Column(
             children: [
-              for (var day in schedule.marHdeDetalleHo)
-                _DayItemWidget(item: day),
+              BtnDeleteScheduleWidget(
+                onTab: () {
+                  final dialog = AlertDialog(
+                    title: Column(
+                      children: [
+                        Image.asset("assets/icons/borrarred.png"),
+                        Text(
+                          'Eliminar ${schedule.horNombre}',
+                          style: const TextStyle(color: error),
+                        ),
+                      ],
+                    ),
+                    content: const Text(
+                      '¿Confirmas que deseas eliminar este horario?',
+                      style: TextStyle(color: primary),
+                    ),
+                    actions: [
+                      Row(
+                        children: [
+                          BtnOutlineWidget(
+                            title: 'Cancelar',
+                            onPress: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          const Spacer(),
+                          BtnWidget(
+                            title: "Si, Eliminar",
+                            width: 200,
+                            onPress: () async {
+                              await Provider.of<ContractsProvider>(context,
+                                      listen: false)
+                                  .deleteSchedule(schedule.horCodigo);
+
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+
+                  showDialog(context: context, builder: (_) => dialog);
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  for (var day in schedule.marHdeDetalleHo)
+                    _DayItemWidget(item: day),
+                ],
+              ),
+              BtnWidget(
+                width: 200,
+                loading: provider.loading,
+                title: "Actualizar",
+                onPress: () async {
+                  await provider.updateScheduleContract(schedule);
+                },
+              )
             ],
           ),
         ),
@@ -85,6 +133,45 @@ class _ItemHoursWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class BtnDeleteScheduleWidget extends StatelessWidget {
+  const BtnDeleteScheduleWidget({
+    super.key,
+    required this.onTab,
+  });
+  final Function onTab;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      alignment: Alignment.centerRight,
+      width: double.infinity,
+      child: SizedBox(
+        width: 80,
+        child: InkWell(
+          onTap: () {
+            onTab();
+          },
+          child: const Row(
+            children: [
+              Icon(
+                Icons.close,
+                color: Color(0XFFFF9C02),
+              ),
+              Text(
+                "Eliminar",
+                style: TextStyle(
+                  color: Color(0XFFFF9C02),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

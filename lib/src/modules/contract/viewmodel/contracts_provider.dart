@@ -352,7 +352,7 @@ class ContractsProvider extends ChangeNotifier {
       if (loading) return;
       loading = true;
       notifyListeners();
-      var resp = await DioConexion.put_(
+      await DioConexion.put_(
         '/contracts/schedule/${dataSend.horCodigo}',
         dataSend.toJson(),
       );
@@ -405,6 +405,19 @@ class ContractsProvider extends ChangeNotifier {
       await DioConexion.delete_('/contracts/$id');
       NotificationsService.showSnackbarSuccess("Contrato Eliminado");
       await getContracts();
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<bool> deleteSchedule(String id) async {
+    try {
+      await DioConexion.delete_('/contracts/schedule/$id');
+      NotificationsService.showSnackbarSuccess("Horario Eliminado");
+      await getSchedules();
       return true;
     } catch (e) {
       return false;
