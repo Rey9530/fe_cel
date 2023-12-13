@@ -347,19 +347,39 @@ class ContractsProvider extends ChangeNotifier {
     }
   }
 
+  Future updateScheduleContract(ListHoursCtr dataSend) async {
+    try {
+      if (loading) return;
+      loading = true;
+      notifyListeners();
+      var resp = await DioConexion.put_(
+        '/contracts/schedule/${dataSend.horCodigo}',
+        dataSend.toJson(),
+      );
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      loading = false;
+      notifyListeners();
+    }
+  }
+
   Future saveScheduleContract() async {
     try {
       if (loading) return;
       loading = true;
       notifyListeners();
       var data = RequestSchedule(list: schedule).toJson();
-      await DioConexion.post_(
+      var resp = await DioConexion.post_(
         '/contracts/schedule/${contract?.ctrCodigo}',
         data,
       );
-      NavigationService.navigateTo(
-        "/contracts/employes/${contract?.ctrCodigo}",
-      );
+      if (resp['status'] == 201) {
+        NavigationService.navigateTo(
+          "/contracts/employes/${contract?.ctrCodigo}",
+        );
+      }
       return true;
     } catch (e) {
       return false;

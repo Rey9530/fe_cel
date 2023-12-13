@@ -51,13 +51,13 @@ class ListHoursCtr {
 }
 
 class MarHdeDetalleHo {
-  final String hdeCodigo;
-  final String hdeCodhor;
-  final String horCoddia;
-  final String hdeInicio1;
-  final String hdeFin1;
-  final String hdeInicio2;
-  final String hdeFin2;
+  String hdeCodigo;
+  String hdeCodhor;
+  String horCoddia;
+  String hdeInicio1;
+  String hdeFin1;
+  String hdeInicio2;
+  String hdeFin2;
   final MarDiaDias marDiaDias;
 
   MarHdeDetalleHo({

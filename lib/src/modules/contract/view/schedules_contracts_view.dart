@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:marcacion_admin/src/common/services/services.dart';
+import 'package:marcacion_admin/src/modules/contract/view/widgets/edit_list_hours_widget.dart';
 import 'package:marcacion_admin/src/modules/contract/view/widgets/list_hours_widget.dart';
 import 'package:marcacion_admin/src/routes/router.dart';
 import 'package:provider/provider.dart';
@@ -64,7 +65,8 @@ class SchedulesBodyWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 50),
-          for (var schedule in provider.schedules) const ListHoursWidgets(),
+          for (var schedule in provider.schedules)
+            EditListHoursWidgets(schedule: schedule),
           const ListHoursWidgets(),
         ],
       ),
