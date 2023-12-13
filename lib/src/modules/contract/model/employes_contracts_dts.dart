@@ -2,18 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:marcacion_admin/src/common/const/const.dart';
-import 'package:marcacion_admin/src/common/models/dropdown_buttom_data_model.dart';
+import 'package:marcacion_admin/src/common/models/dropdown_button_data_model.dart';
 import 'package:marcacion_admin/src/common/widgets/widgets.dart';
 import 'package:marcacion_admin/src/modules/contract/model/index.dart';
 import 'package:marcacion_admin/src/modules/contract/viewmodel/contracts_provider.dart';
 import 'package:provider/provider.dart';
 
-class EmployesContractsTDS extends DataTableSource {
+class EmployeesContractsTDS extends DataTableSource {
   final List<EmpSchedule> contracts;
   final BuildContext context;
   final int total;
 
-  EmployesContractsTDS(this.contracts, this.context, this.total);
+  EmployeesContractsTDS(this.contracts, this.context, this.total);
 
   @override
   DataRow? getRow(int index) {
@@ -24,11 +24,11 @@ class EmployesContractsTDS extends DataTableSource {
           MaterialStateColor.resolveWith((states) => const Color(0XFFFFFFFF)),
       index: index,
       cells: [
-        DataCell(Text(contract.marEmpEmpleados.empNombres)),
-        DataCell(Text(contract.marEmpEmpleados.empApellidos)),
-        DataCell(Text(contract.marEmpEmpleados.empCodigoEmp)),
-        DataCell(Text(contract.marEmpEmpleados.marConContrataciones.conNombre)),
-        DataCell(Text(contract.marEmpEmpleados.marUbiUbicaciones.ubiNombre)),
+        DataCell(Text(contract.marEmpEmployees.empNombres)),
+        DataCell(Text(contract.marEmpEmployees.empSurnames)),
+        DataCell(Text(contract.marEmpEmployees.empCodigoEmp)),
+        DataCell(Text(contract.marEmpEmployees.marConHiring.conNames)),
+        DataCell(Text(contract.marEmpEmployees.marUbiLocations.ubiNames)),
         DataCell(
           Container(
             margin: const EdgeInsets.symmetric(vertical: 5),
@@ -47,7 +47,7 @@ class EmployesContractsTDS extends DataTableSource {
                 ...provider.hoursCtr.map(
                   (e) => DropdownButtonData(
                     id: e.horCodigo,
-                    title: e.horNombre,
+                    title: e.horName,
                   ),
                 ),
               ],
@@ -63,7 +63,7 @@ class EmployesContractsTDS extends DataTableSource {
                   children: [
                     Image.asset("assets/icons/borrarred.png"),
                     Text(
-                      'Eliminar ${contract.marEmpEmpleados.empNombres} ${contract.marEmpEmpleados.empApellidos}',
+                      'Eliminar ${contract.marEmpEmployees.empNombres} ${contract.marEmpEmployees.empSurnames}',
                       style: const TextStyle(color: error),
                     ),
                   ],
@@ -88,7 +88,7 @@ class EmployesContractsTDS extends DataTableSource {
                         onPress: () async {
                           await Provider.of<ContractsProvider>(context,
                                   listen: false)
-                              .deleteEmploye(contract.asiCodigo);
+                              .deleteEmployee(contract.asiCodigo);
                           Navigator.pop(context);
                         },
                       ),

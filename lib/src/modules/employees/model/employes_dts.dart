@@ -9,7 +9,7 @@ import 'package:marcacion_admin/src/modules/employees/viewmodel/employes_provide
 import 'package:provider/provider.dart';
 
 class EmployesTDS extends DataTableSource {
-  final List<Employe> companies;
+  final List<Employee> companies;
   final BuildContext context;
   final int total;
 
@@ -26,10 +26,10 @@ class EmployesTDS extends DataTableSource {
         DataCell(Text(employe.empCodigoEmp)),
         DataCell(Text(employe.empNombres)),
         DataCell(Text(employe.empApellidos)),
-        DataCell(Text(employe.empFechaNacimiento)),
-        DataCell(Text(employe.marGenGeneros.genNombre)),
-        DataCell(Text(employe.marConContrataciones.conNombre)),
-        DataCell(Text(employe.marUbiUbicaciones.ubiNombre)),
+        DataCell(Text(employe.empBirthDate)),
+        DataCell(Text(employe.marGenGenders.genNombre)),
+        DataCell(Text(employe.marConContractions.conNombre)),
+        DataCell(Text(employe.marUbiLocations.ubiNombre)),
         DataCell(
           Row(
             children: [
@@ -79,7 +79,7 @@ class EmployesTDS extends DataTableSource {
                             title: "Si, Eliminar",
                             width: 200,
                             onPress: () async {
-                              await Provider.of<EmployesProvider>(context,
+                              await Provider.of<EmployeesProvider>(context,
                                       listen: false)
                                   .deleteEmployes(employe.empCodigo);
 

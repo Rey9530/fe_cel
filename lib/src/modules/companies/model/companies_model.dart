@@ -1,5 +1,5 @@
 class CompaniesResponse {
-  final List<Companie> data;
+  final List<Company> data;
   final int status;
   final String message;
 
@@ -11,8 +11,7 @@ class CompaniesResponse {
 
   factory CompaniesResponse.fromJson(Map<String, dynamic> json) =>
       CompaniesResponse(
-        data:
-            List<Companie>.from(json["data"].map((x) => Companie.fromJson(x))),
+        data: List<Company>.from(json["data"].map((x) => Company.fromJson(x))),
         status: json["status"],
         message: json["message"],
       );
@@ -24,61 +23,61 @@ class CompaniesResponse {
       };
 }
 
-class Companie {
-  final String eprCodigo;
-  final String eprNombre;
-  final String eprDireccion;
-  final String eprContactoNombre;
-  final String eprContactoCorreo;
-  final String eprContactoTelefono;
-  final String eprUsrcrea;
-  final String eprUsrmod;
-  final DateTime eprFeccrea;
-  final DateTime eprFecmod;
-  final String eprEstado;
-  final String eprCodusr;
+class Company {
+  final String eprCode;
+  final String eprName;
+  final String eprAddress;
+  final String eprContactName;
+  final String eprContactEmail;
+  final String eprContactPhone;
+  final String eprUsrCreate;
+  final String eprUsrUpdate;
+  final DateTime eprFecCreate;
+  final DateTime eprFecUpdate;
+  final String eprStatus;
+  final String eprCodUsr;
 
-  Companie({
-    required this.eprCodigo,
-    required this.eprNombre,
-    required this.eprDireccion,
-    required this.eprContactoNombre,
-    required this.eprContactoCorreo,
-    required this.eprContactoTelefono,
-    required this.eprUsrcrea,
-    required this.eprUsrmod,
-    required this.eprFeccrea,
-    required this.eprFecmod,
-    required this.eprEstado,
-    required this.eprCodusr,
+  Company({
+    required this.eprCode,
+    required this.eprName,
+    required this.eprAddress,
+    required this.eprContactName,
+    required this.eprContactEmail,
+    required this.eprContactPhone,
+    required this.eprUsrCreate,
+    required this.eprUsrUpdate,
+    required this.eprFecCreate,
+    required this.eprFecUpdate,
+    required this.eprStatus,
+    required this.eprCodUsr,
   });
 
-  factory Companie.fromJson(Map<String, dynamic> json) => Companie(
-        eprCodigo: json["epr_codigo"],
-        eprNombre: json["epr_nombre"],
-        eprDireccion: json["epr_direccion"],
-        eprContactoNombre: json["epr_contacto_nombre"],
-        eprContactoCorreo: json["epr_contacto_correo"],
-        eprContactoTelefono: json["epr_contacto_telefono"],
-        eprUsrcrea: json["epr_usrcrea"],
-        eprUsrmod: json["epr_usrmod"],
-        eprFeccrea: DateTime.parse(json["epr_feccrea"]),
-        eprFecmod: DateTime.parse(json["epr_fecmod"]),
-        eprEstado: json["epr_estado"],
-        eprCodusr: json["epr_codusr"] ?? '',
+  factory Company.fromJson(Map<String, dynamic> json) => Company(
+        eprCode: json["epr_codigo"],
+        eprName: json["epr_nombre"],
+        eprAddress: json["epr_direccion"],
+        eprContactName: json["epr_contacto_nombre"],
+        eprContactEmail: json["epr_contacto_correo"],
+        eprContactPhone: json["epr_contacto_telefono"],
+        eprUsrCreate: json["epr_usrcrea"],
+        eprUsrUpdate: json["epr_usrmod"],
+        eprFecCreate: DateTime.parse(json["epr_feccrea"]),
+        eprFecUpdate: DateTime.parse(json["epr_fecmod"]),
+        eprStatus: json["epr_estado"],
+        eprCodUsr: json["epr_codusr"] ?? '',
       );
   Map<String, dynamic> toJson() => {
-        "epr_codigo": eprCodigo,
-        "epr_nombre": eprNombre,
-        "epr_direccion": eprDireccion,
-        "epr_contacto_nombre": eprContactoNombre,
-        "epr_contacto_correo": eprContactoCorreo,
-        "epr_contacto_telefono": eprContactoTelefono,
-        "epr_usrcrea": eprUsrcrea,
-        "epr_usrmod": eprUsrmod,
-        "epr_feccrea": eprFeccrea.toIso8601String(),
-        "epr_fecmod": eprFecmod.toIso8601String(),
-        "epr_estado": eprEstado,
-        "epr_codusr": eprCodusr,
+        "epr_codigo": eprCode,
+        "epr_nombre": eprName,
+        "epr_direccion": eprAddress,
+        "epr_contacto_nombre": eprContactName,
+        "epr_contacto_correo": eprContactEmail,
+        "epr_contacto_telefono": eprContactPhone,
+        "epr_usrcrea": eprUsrCreate,
+        "epr_usrmod": eprUsrUpdate,
+        "epr_feccrea": eprFecCreate.toIso8601String(),
+        "epr_fecmod": eprFecUpdate.toIso8601String(),
+        "epr_estado": eprStatus,
+        "epr_codusr": eprCodUsr,
       };
 }

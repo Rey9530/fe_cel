@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:marcacion_admin/src/common/const/const.dart';
 import 'package:marcacion_admin/src/common/helpers/helpers.dart';
-import 'package:marcacion_admin/src/common/models/dropdown_buttom_data_model.dart';
+import 'package:marcacion_admin/src/common/models/dropdown_button_data_model.dart';
 import 'package:marcacion_admin/src/common/services/services.dart';
 import 'package:marcacion_admin/src/common/widgets/widgets.dart';
 import 'package:marcacion_admin/src/modules/employees/model/employes_dts.dart';
@@ -22,7 +22,7 @@ class EmployesView extends StatelessWidget {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: const [
-          BreadCrumWidget(
+          BreadCrumbsWidget(
             title: 'Empleados',
           ),
           _BodyEmployes(),
@@ -69,15 +69,15 @@ class _ListEmployestWidgetState extends State<_ListEmployestWidget> {
   void initState() {
     super.initState();
 
-    Provider.of<EmployesProvider>(context, listen: false).employes = [];
-    Provider.of<EmployesProvider>(context, listen: false).getEmployes();
+    Provider.of<EmployeesProvider>(context, listen: false).employes = [];
+    Provider.of<EmployeesProvider>(context, listen: false).getEmployes();
   }
 
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<EmployesProvider>(context);
+    var provider = Provider.of<EmployeesProvider>(context);
     var style = TextStyle(
       fontWeight: FontWeight.w600,
       color: getTheme(context).primary,
@@ -161,7 +161,7 @@ class _SearchTextfieldWidgetState extends State<_SearchTextfieldWidget> {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () async {
       // do something with query
-      var provider = Provider.of<EmployesProvider>(context, listen: false);
+      var provider = Provider.of<EmployeesProvider>(context, listen: false);
       provider.query = query;
       await provider.getEmployes();
       setState(() {
@@ -231,7 +231,7 @@ class _LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<EmployesProvider>(context);
+    var provider = Provider.of<EmployeesProvider>(context);
     return (provider.loading)
         ? const CircularProgressIndicator()
         : const SizedBox.shrink();
@@ -245,13 +245,12 @@ class ListComaniesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<EmployesProvider>(context, listen: false);
+    var provider = Provider.of<EmployeesProvider>(context, listen: false);
     return SizedBox(
       width: 500,
       child: FutureBuilder(
         future: provider.getCompanies(),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<Companie>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<List<Company>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SizedBox(
               width: 50,
@@ -273,8 +272,8 @@ class ListComaniesWidget extends StatelessWidget {
               if (snapshot.data != null)
                 ...snapshot.data!.map(
                   (e) => DropdownButtonData(
-                    id: e.eprCodigo,
-                    title: e.eprNombre,
+                    id: e.eprCode,
+                    title: e.eprName,
                   ),
                 )
             ],

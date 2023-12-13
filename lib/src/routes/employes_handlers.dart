@@ -27,7 +27,7 @@ class EmployesHandlers {
         .setCurrentPageUrl(Flurorouter.employesRoute);
 
     if (authProvider.authStatus == AuthStatus.authenticated) {
-      return const AddEmployeView();
+      return const AddEmployeeView();
     } else {
       return const LoginView();
     }
@@ -40,7 +40,7 @@ class EmployesHandlers {
 
     if (authProvider.authStatus == AuthStatus.authenticated) {
       String? uuid = params['uuid']?.first;
-      return AddEmployeView(uuid: uuid);
+      return AddEmployeeView(uuid: uuid);
     } else {
       return const LoginView();
     }

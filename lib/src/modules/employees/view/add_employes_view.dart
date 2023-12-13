@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:marcacion_admin/src/common/const/const.dart';
 import 'package:marcacion_admin/src/common/helpers/helpers.dart';
-import 'package:marcacion_admin/src/common/models/dropdown_buttom_data_model.dart';
+import 'package:marcacion_admin/src/common/models/dropdown_button_data_model.dart';
 import 'package:marcacion_admin/src/common/widgets/widgets.dart';
 import 'package:marcacion_admin/src/modules/employees/viewmodel/employes_provider.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
-class AddEmployeView extends StatelessWidget {
-  const AddEmployeView({super.key, this.uuid});
+class AddEmployeeView extends StatelessWidget {
+  const AddEmployeeView({super.key, this.uuid});
   final String? uuid;
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<EmployesProvider>(context, listen: false);
+    var provider = Provider.of<EmployeesProvider>(context, listen: false);
     return FutureBuilder(
-      future: provider.getCatalogos(uuid),
+      future: provider.getsCatalogs(uuid),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -33,15 +33,15 @@ class AddEmployeBodyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<EmployesProvider>(context, listen: false);
+    var provider = Provider.of<EmployeesProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.all(20),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          BreadCrumWidget(
+          BreadCrumbsWidget(
             title:
-                'Empleados / ${provider.uuid != null ? "${provider.employeName.text} ${provider.employeSurname.text}" : "Nuevo empleado"}',
+                'Empleados / ${provider.uuid != null ? "${provider.employeeName.text} ${provider.employeeSurname.text}" : "Nuevo empleado"}',
           ),
           const SizedBox(height: 50),
           const Padding(
@@ -72,7 +72,7 @@ class _FormewEmployeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<EmployesProvider>(context);
+    var provider = Provider.of<EmployeesProvider>(context);
     return Form(
       key: provider.formKey,
       child: Column(
@@ -104,7 +104,7 @@ class _FormewEmployeWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "TER-${provider.employeCode}",
+                        "TER-${provider.employeeCode}",
                         style: const TextStyle(
                           color: textGraySubtitle,
                           fontWeight: FontWeight.bold,
@@ -122,11 +122,11 @@ class _FormewEmployeWidget extends StatelessWidget {
                     isDark: true,
                     label: "Nombres",
                     hinText: 'Escribe los nombres del nuevo empleado',
-                    controller: provider.employeName,
+                    controller: provider.employeeName,
                     onChange: (valor) {
                       // provider.validarInput();
                     },
-                    validaciones: const [
+                    validations: const [
                       minLength5,
                     ],
                   ),
@@ -139,11 +139,11 @@ class _FormewEmployeWidget extends StatelessWidget {
                     isDark: true,
                     label: "Apellidos",
                     hinText: 'Escribe los apellidos del nuevo empleado',
-                    controller: provider.employeSurname,
+                    controller: provider.employeeSurname,
                     onChange: (valor) {
                       // provider.validarInput();
                     },
-                    validaciones: const [
+                    validations: const [
                       minLength5,
                     ],
                   ),
@@ -160,13 +160,13 @@ class _FormewEmployeWidget extends StatelessWidget {
                         type: MaskAutoCompletionType.lazy,
                       ),
                     ],
-                    validaciones: const [
+                    validations: const [
                       validationIsDate,
                     ],
                     isDark: true,
                     label: "Fecha de nacimiento",
                     hinText: '00/00/0000',
-                    controller: provider.employeBirthdate,
+                    controller: provider.employeeBirthDate,
                     onChange: (String valor) async {
                       if (valor.length < 10) return;
                       try {
@@ -190,7 +190,7 @@ class _FormewEmployeWidget extends StatelessWidget {
                         if (data != null) {
                           String onlydate =
                               DateFormat("dd/MM/yyyy").format(data);
-                          provider.employeBirthdate.text = onlydate;
+                          provider.employeeBirthDate.text = onlydate;
                           String birthDate =
                               DateFormat("yyyy-MM-dd").format(data);
                           await provider.generateCode(birthDate);
@@ -211,12 +211,12 @@ class _FormewEmployeWidget extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   width: 620,
                   child: SelectCompaniesWidget(
-                    controller: provider.employeLocation,
+                    controller: provider.employeeLocation,
                     title: 'Sede asignada',
                     onChange: (val) {},
                     selected: DropdownButtonData(
-                      id: provider.employeLocation.text,
-                      title: provider.employeLocation.text,
+                      id: provider.employeeLocation.text,
+                      title: provider.employeeLocation.text,
                     ),
                     items: [
                       ...provider.sedes.map(
@@ -233,14 +233,14 @@ class _FormewEmployeWidget extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   width: 400,
                   child: SelectCompaniesWidget(
-                    controller: provider.employeCompany,
+                    controller: provider.employeeCompany,
                     title: 'Empresa',
                     onChange: (val) async {
                       await provider.getContracts(val.id);
                     },
                     selected: DropdownButtonData(
-                      id: provider.employeCompany.text,
-                      title: provider.employeCompany.text,
+                      id: provider.employeeCompany.text,
+                      title: provider.employeeCompany.text,
                     ),
                     items: [
                       ...provider.companies.map(
@@ -269,11 +269,11 @@ class _FormewEmployeWidget extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   width: 400,
                   child: SelectCompaniesWidget(
-                    controller: provider.employeContratation,
+                    controller: provider.employeeContratacion,
                     title: 'Tipo de contratación',
                     selected: DropdownButtonData(
-                      id: provider.employeContratation.text,
-                      title: provider.employeContratation.text,
+                      id: provider.employeeContratacion.text,
+                      title: provider.employeeContratacion.text,
                     ),
                     items: [
                       ...provider.contratations.map(
@@ -293,7 +293,7 @@ class _FormewEmployeWidget extends StatelessWidget {
                     isDark: true,
                     label: "Fecha de inicio",
                     hinText: '00/00/0000',
-                    validaciones: const [
+                    validations: const [
                       validationIsDate,
                     ],
                     inputFormatters: [
@@ -303,7 +303,7 @@ class _FormewEmployeWidget extends StatelessWidget {
                         type: MaskAutoCompletionType.lazy,
                       ),
                     ],
-                    controller: provider.employeDateStart,
+                    controller: provider.employeeDateStart,
                     onChange: (valor) async {},
                     suffixIcon: InkWell(
                       onTap: () async {
@@ -318,7 +318,7 @@ class _FormewEmployeWidget extends StatelessWidget {
                         if (data != null) {
                           String onlydate =
                               DateFormat("dd/MM/yyyy").format(data);
-                          provider.employeDateStart.text = onlydate;
+                          provider.employeeDateStart.text = onlydate;
                         }
                       },
                       child: Image.asset("assets/icons/calendar_primary.png"),
@@ -333,7 +333,7 @@ class _FormewEmployeWidget extends StatelessWidget {
                     isDark: true,
                     label: "Fecha de fin",
                     hinText: '00/00/0000',
-                    validaciones: const [
+                    validations: const [
                       validationIsDate,
                     ],
                     inputFormatters: [
@@ -343,7 +343,7 @@ class _FormewEmployeWidget extends StatelessWidget {
                         type: MaskAutoCompletionType.lazy,
                       ),
                     ],
-                    controller: provider.employeDateEnd,
+                    controller: provider.employeeDateEnd,
                     onChange: (valor) async {},
                     suffixIcon: InkWell(
                       onTap: () async {
@@ -357,7 +357,7 @@ class _FormewEmployeWidget extends StatelessWidget {
                         if (data != null) {
                           String onlydate =
                               DateFormat("dd/MM/yyyy").format(data);
-                          provider.employeDateStart.text = onlydate;
+                          provider.employeeDateStart.text = onlydate;
                         }
                       },
                       child: Image.asset("assets/icons/calendar_primary.png"),
@@ -395,22 +395,22 @@ class SelectHoursWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<EmployesProvider>(context);
+    var provider = Provider.of<EmployeesProvider>(context);
     return provider.loadingHours
         ? const CircularProgressIndicator()
         : SelectCompaniesWidget(
             isRequired: false,
-            controller: provider.employeHours,
+            controller: provider.employeeHours,
             title: 'Horario',
             selected: DropdownButtonData(
-              id: provider.employeHours.text,
-              title: provider.employeHours.text,
+              id: provider.employeeHours.text,
+              title: provider.employeeHours.text,
             ),
             items: [
               ...provider.hoursCtr.map(
                 (e) => DropdownButtonData(
                   id: e.horCodigo,
-                  title: e.horNombre,
+                  title: e.horName,
                 ),
               ),
             ],
@@ -423,16 +423,16 @@ class _SelectContractsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<EmployesProvider>(context);
+    var provider = Provider.of<EmployeesProvider>(context);
     return provider.loading
         ? const CircularProgressIndicator()
         : SelectCompaniesWidget(
-            controller: provider.employeContact,
+            controller: provider.employeeContact,
             isRequired: false,
             title: 'Código de contrato',
             selected: DropdownButtonData(
-              id: provider.employeContact.text,
-              title: provider.employeContact.text,
+              id: provider.employeeContact.text,
+              title: provider.employeeContact.text,
             ),
             onChange: (val) async {
               await provider.getHoursContracts(val.id);
@@ -461,7 +461,7 @@ class SelectGenderWidget extends StatefulWidget {
 class _SelectGenderWidgetState extends State<SelectGenderWidget> {
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<EmployesProvider>(context, listen: false);
+    var provider = Provider.of<EmployeesProvider>(context, listen: false);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -472,7 +472,7 @@ class _SelectGenderWidgetState extends State<SelectGenderWidget> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  provider.employeGender.text = e.genCodigo;
+                  provider.employeeGender.text = e.genCodigo;
                 });
               },
               child: Row(
@@ -486,10 +486,10 @@ class _SelectGenderWidgetState extends State<SelectGenderWidget> {
                   ),
                   Radio(
                     value: e.genCodigo,
-                    groupValue: provider.employeGender.text,
+                    groupValue: provider.employeeGender.text,
                     onChanged: (v) {
                       setState(() {
-                        provider.employeGender.text = v!;
+                        provider.employeeGender.text = v!;
                       });
                     },
                   ),

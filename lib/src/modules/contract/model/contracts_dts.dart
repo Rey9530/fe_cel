@@ -23,12 +23,12 @@ class ContractsTDS extends DataTableSource {
           MaterialStateColor.resolveWith((states) => const Color(0XFFFFFFFF)),
       index: index,
       cells: [
-        DataCell(Text(contract.ctrNombre)),
+        DataCell(Text(contract.ctrName)),
         DataCell(Text(contract.ctrNumContrato)),
-        DataCell(Text(contract.marEprEmpresas.eprNombre)),
-        DataCell(Text(contract.ctrFechaInicio)),
-        DataCell(Text(contract.ctrFechaFin)),
-        DataCell(Text(contract.ctrFechaInipro.isEmpty ? "NO" : "SI")),
+        DataCell(Text(contract.marEprCompanies.eprName)),
+        DataCell(Text(contract.ctrDateStart)),
+        DataCell(Text(contract.ctrDateEnd)),
+        DataCell(Text(contract.ctrDateStartPro.isEmpty ? "NO" : "SI")),
         DataCell(
           Row(
             children: [
@@ -91,7 +91,7 @@ class ContractsTDS extends DataTableSource {
                       children: [
                         Image.asset("assets/icons/borrarred.png"),
                         Text(
-                          'Eliminar ${contract.ctrNombre}',
+                          'Eliminar ${contract.ctrName}',
                           style: const TextStyle(color: error),
                         ),
                       ],

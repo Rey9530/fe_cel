@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marcacion_admin/src/common/helpers/helpers.dart';
-import 'package:marcacion_admin/src/common/models/dropdown_buttom_data_model.dart';
+import 'package:marcacion_admin/src/common/models/dropdown_button_data_model.dart';
 import 'package:marcacion_admin/src/common/services/services.dart';
 import 'package:marcacion_admin/src/common/widgets/widgets.dart';
 import 'package:marcacion_admin/src/modules/contract/viewmodel/contracts_provider.dart';
@@ -39,7 +39,7 @@ class AddContractsBodyWidget extends StatelessWidget {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          BreadCrumWidget(
+          BreadCrumbsWidget(
             title:
                 'Contratos / ${provider.uuid != null ? "Actualizar" : "Crear"} contrato',
           ),
@@ -47,7 +47,7 @@ class AddContractsBodyWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: GoBackWidget(
-              functionn: () {
+              function: () {
                 NavigationService.replaceTo(Flurorouter.contractsRoute);
               },
             ),
@@ -64,15 +64,15 @@ class AddContractsBodyWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 50),
-          const _FormewContractsWidget()
+          const _ForNewContractsWidget()
         ],
       ),
     );
   }
 }
 
-class _FormewContractsWidget extends StatelessWidget {
-  const _FormewContractsWidget();
+class _ForNewContractsWidget extends StatelessWidget {
+  const _ForNewContractsWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -96,12 +96,9 @@ class _FormewContractsWidget extends StatelessWidget {
                     label: "Nombre del contrato",
                     hinText: 'Escribe el nombre para tu contrato',
                     controller: provider.contractName,
-                    validaciones: const [
+                    validations: const [
                       minLength5,
                     ],
-                    onChange: (valor) {
-                      // provider.validarInput();
-                    },
                   ),
                 ),
                 Container(
@@ -115,12 +112,9 @@ class _FormewContractsWidget extends StatelessWidget {
                     label: "Número de contrato",
                     hinText: 'Escribe el número de contrato',
                     controller: provider.contractsNumber,
-                    validaciones: const [
+                    validations: const [
                       minLength5,
                     ],
-                    onChange: (valor) {
-                      // provider.validarInput();
-                    },
                   ),
                 ),
                 Container(
@@ -135,7 +129,7 @@ class _FormewContractsWidget extends StatelessWidget {
                         type: MaskAutoCompletionType.lazy,
                       ),
                     ],
-                    validaciones: const [
+                    validations: const [
                       validationIsDate,
                     ],
                     isDark: true,
@@ -172,7 +166,7 @@ class _FormewContractsWidget extends StatelessWidget {
                         type: MaskAutoCompletionType.lazy,
                       ),
                     ],
-                    validaciones: const [
+                    validations: const [
                       validationIsDate,
                     ],
                     isDark: true,
@@ -230,9 +224,6 @@ class _FormewContractsWidget extends StatelessWidget {
                     label: "Horas extras",
                     hinText: 'Ingrese una cantidad',
                     controller: provider.extraHours,
-                    onChange: (valor) {
-                      // provider.validarInput();
-                    },
                   ),
                 ),
                 Container(
@@ -259,7 +250,7 @@ class _FormewContractsWidget extends StatelessWidget {
                           type: MaskAutoCompletionType.lazy,
                         ),
                       ],
-                      validaciones: const [
+                      validations: const [
                         validationIsDate,
                       ],
                       controller: provider.startDateExtendable,
@@ -274,11 +265,7 @@ class _FormewContractsWidget extends StatelessWidget {
                             initialEntryMode: DatePickerEntryMode.calendarOnly,
                             locale: const Locale('es', 'ES'),
                           );
-                          if (data != null) {
-                            // String onlydate =
-                            //     DateFormat("dd/MM/yyyy").format(data);
-                            // provider.ContractsDateStart.text = onlydate;
-                          }
+                          if (data != null) {}
                         },
                         child: Image.asset("assets/icons/calendar_primary.png"),
                       ),
@@ -300,7 +287,7 @@ class _FormewContractsWidget extends StatelessWidget {
                           type: MaskAutoCompletionType.lazy,
                         ),
                       ],
-                      validaciones: const [
+                      validations: const [
                         validationIsDate,
                       ],
                       controller: provider.endDateExtendable,
@@ -314,11 +301,7 @@ class _FormewContractsWidget extends StatelessWidget {
                             initialEntryMode: DatePickerEntryMode.calendarOnly,
                             locale: const Locale('es', 'ES'),
                           );
-                          if (data != null) {
-                            // String onlydate =
-                            //     DateFormat("dd/MM/yyyy").format(data);
-                            // provider.ContractsDateStart.text = onlydate;
-                          }
+                          if (data != null) {}
                         },
                         child: Image.asset("assets/icons/calendar_primary.png"),
                       ),

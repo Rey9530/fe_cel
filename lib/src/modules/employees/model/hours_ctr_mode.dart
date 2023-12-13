@@ -26,20 +26,20 @@ class HoursCtrResponse {
 
 class HoursCtr {
   final String horCodigo;
-  final String horNombre;
+  final String horName;
 
   HoursCtr({
     required this.horCodigo,
-    required this.horNombre,
+    required this.horName,
   });
 
   factory HoursCtr.fromJson(Map<String, dynamic> json) => HoursCtr(
         horCodigo: json["hor_codigo"],
-        horNombre: json["hor_nombre"],
+        horName: json["hor_nombre"],
       );
 
   Map<String, dynamic> toJson() => {
         "hor_codigo": horCodigo,
-        "hor_nombre": horNombre,
+        "hor_nombre": horName,
       };
 }

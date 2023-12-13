@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marcacion_admin/src/common/const/const.dart';
 import 'package:marcacion_admin/src/common/helpers/helpers.dart';
-import 'package:marcacion_admin/src/common/models/dropdown_buttom_data_model.dart';
+import 'package:marcacion_admin/src/common/models/dropdown_button_data_model.dart';
 import 'package:marcacion_admin/src/common/services/services.dart';
 import 'package:marcacion_admin/src/common/widgets/widgets.dart';
 
@@ -15,8 +15,8 @@ class DashboardView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          BreadCrumWidget(
-            title: 'Dashboar',
+          BreadCrumbsWidget(
+            title: 'Dashboard',
           ),
           SizedBox(height: 20),
           BodyDashboardWidget(),
@@ -44,28 +44,56 @@ class BodyDashboardWidget extends StatelessWidget {
           child: const Row(
             children: [
               CardUserCustomerWidget(),
-              Employes1Widget(
+              Employees1Widget(
                 title: 'Empleados a tiempo',
                 icon: 'users_check.png',
               ),
-              Employes1Widget(
+              Employees1Widget(
                 title: 'Empleados con retraso',
                 icon: 'users_check.png',
               ),
-              Employes1Widget(
+              Employees1Widget(
                 title: 'Empleados horas extra',
                 icon: 'users_check.png',
               ),
             ],
           ),
         ),
+        const SizedBox(height: 20),
+        const Row(
+          children: [
+            CharGenderWidget(),
+          ],
+        )
       ],
     );
   }
 }
 
-class Employes1Widget extends StatelessWidget {
-  const Employes1Widget({
+class CharGenderWidget extends StatelessWidget {
+  const CharGenderWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 500,
+      height: 300,
+      decoration: BoxDecoration(
+        // color: ,
+        border: Border.all(
+          color: const Color(0XFFEFEFEF),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(16),
+      ),
+    );
+  }
+}
+
+class Employees1Widget extends StatelessWidget {
+  const Employees1Widget({
     super.key,
     required this.title,
     required this.icon,

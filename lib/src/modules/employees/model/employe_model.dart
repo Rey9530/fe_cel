@@ -2,20 +2,20 @@
 
 import 'package:marcacion_admin/src/modules/employees/model/models.dart';
 
-class EmployeResponse {
-  final Employe data;
+class EmployeeResponse {
+  final Employee data;
   final int status;
   final String message;
 
-  EmployeResponse({
+  EmployeeResponse({
     required this.data,
     required this.status,
     required this.message,
   });
 
-  factory EmployeResponse.fromJson(Map<String, dynamic> json) =>
-      EmployeResponse(
-        data: Employe.fromJson(json["data"]),
+  factory EmployeeResponse.fromJson(Map<String, dynamic> json) =>
+      EmployeeResponse(
+        data: Employee.fromJson(json["data"]),
         status: json["status"],
         message: json["message"],
       );

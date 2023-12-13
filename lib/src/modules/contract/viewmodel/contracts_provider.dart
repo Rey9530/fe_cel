@@ -40,7 +40,7 @@ class ContractsProvider extends ChangeNotifier {
     try {
       loading = true;
       notifyListeners();
-      final resp = await DioConexion.post_('/users/update/password', data);
+      final resp = await DioConnection.post_('/users/update/password', data);
 
       notifyListeners();
       if (resp['status'] != null) {
@@ -49,7 +49,6 @@ class ContractsProvider extends ChangeNotifier {
         return false;
       }
     } catch (e) {
-      // NotificationsService.showSnackbarError('Usuario / Password no válidos');
       return false;
     } finally {
       loading = false;
@@ -64,7 +63,7 @@ class ContractsProvider extends ChangeNotifier {
         loading = true;
         notifyListeners();
       }
-      final resp = await DioConexion.get_('/contracts');
+      final resp = await DioConnection.get_('/contracts');
       final response = ContractsResponse.fromJson(resp);
       contracts = response.data;
       return true;
@@ -85,10 +84,10 @@ class ContractsProvider extends ChangeNotifier {
         loading = true;
         notifyListeners();
       }
-      final resp = await DioConexion.get_(
+      final resp = await DioConnection.get_(
         '/contracts/list/employes/${contract!.ctrCodigo}',
       );
-      final response = EmployesScheduleResponse.fromJson(resp);
+      final response = EmployeesScheduleResponse.fromJson(resp);
       emplContract = response.data;
       return true;
     } catch (e) {
@@ -108,9 +107,9 @@ class ContractsProvider extends ChangeNotifier {
     if (uuid == null) await cleanForm();
   }
 
-  agregarItem(codeEmp) async {
+  addItem(codeEmp) async {
     try {
-      await DioConexion.post_(
+      await DioConnection.post_(
         '/contracts/employe/${contract!.ctrCodigo}/$codeEmp',
         {},
       );
@@ -118,15 +117,15 @@ class ContractsProvider extends ChangeNotifier {
     } catch (e) {
       return;
     } finally {
-      employes = [];
+      employees = [];
       query = '';
       notifyListeners();
     }
   }
 
-  Future<bool> deleteEmploye(String id) async {
+  Future<bool> deleteEmployee(String id) async {
     try {
-      await DioConexion.delete_('/contracts/employe/$id');
+      await DioConnection.delete_('/contracts/employe/$id');
       NotificationsService.showSnackbarSuccess("Empleado Eliminado");
       await getEmpContracts();
       return true;
@@ -148,13 +147,13 @@ class ContractsProvider extends ChangeNotifier {
     await getSchedules();
   }
 
-  loadToEmployes(uui) async {
+  loadToEmployees(uui) async {
     uuid = uui;
     if (uuid == null) NavigationService.replaceTo(Flurorouter.contractsRoute);
     await getRegister();
     await getEmpContracts();
     await getHoursContracts(uuid ?? '');
-    employes = [];
+    employees = [];
     if (contract == null) {
       NavigationService.replaceTo(Flurorouter.contractsRoute);
     }
@@ -168,7 +167,8 @@ class ContractsProvider extends ChangeNotifier {
       if (loading) return;
       loadingHours = true;
       notifyListeners();
-      var resp = await DioConexion.get_('/employes/get/contracts/hours/$idCtr');
+      var resp =
+          await DioConnection.get_('/employes/get/contracts/hours/$idCtr');
       var code = HoursCtrResponse.fromJson(resp);
       hoursCtr = code.data;
       notifyListeners();
@@ -183,10 +183,10 @@ class ContractsProvider extends ChangeNotifier {
 
   String query = '';
 
-  List<EmployesContract> employes = [];
-  Future<bool> getEmployes([load = false]) async {
+  List<EmployeesContract> employees = [];
+  Future<bool> getEmployees([load = false]) async {
     if (query.length < 3) {
-      employes = [];
+      employees = [];
       notifyListeners();
       return false;
     }
@@ -195,7 +195,7 @@ class ContractsProvider extends ChangeNotifier {
         loading = true;
         notifyListeners();
       }
-      final resp = await DioConexion.get_(
+      final resp = await DioConnection.get_(
         '/contracts/get/employes/${contract!.ctrCodigo}',
         {
           "page": 1,
@@ -204,8 +204,8 @@ class ContractsProvider extends ChangeNotifier {
           "company": company.text,
         },
       );
-      final response = EmployesContractResponse.fromJson(resp);
-      employes = response.data;
+      final response = EmployeesContractResponse.fromJson(resp);
+      employees = response.data;
       return true;
     } catch (e) {
       return false;
@@ -221,7 +221,7 @@ class ContractsProvider extends ChangeNotifier {
   List<Schedule> schedule = [];
   Future<bool> getDays() async {
     try {
-      final resp = await DioConexion.get_('/contracts/get/days');
+      final resp = await DioConnection.get_('/contracts/get/days');
       final response = DaysResponse.fromJson(resp);
       days = response.data;
       schedule = [];
@@ -262,19 +262,19 @@ class ContractsProvider extends ChangeNotifier {
   Contract? contract;
   Future<bool> getRegister() async {
     try {
-      final resp = await DioConexion.get_('/contracts/$uuid');
+      final resp = await DioConnection.get_('/contracts/$uuid');
       final response = Contract.fromJson(resp['data']);
       contract = response;
-      contractName.text = response.ctrNombre;
+      contractName.text = response.ctrName;
       contractsNumber.text = response.ctrNumContrato;
-      startDate.text = response.ctrFechaInicio;
-      endDate.text = response.ctrFechaFin;
-      company.text = response.marEprEmpresas.eprCodigo;
+      startDate.text = response.ctrDateStart;
+      endDate.text = response.ctrDateEnd;
+      company.text = response.marEprCompanies.eprCodigo;
       extraHours.text = response.ctrHorasExtras.toString();
-      isExtendable = response.ctrFechaFinpro.isNotEmpty &&
-          response.ctrFechaFinpro.isNotEmpty;
-      startDateExtendable.text = response.ctrFechaFinpro;
-      endDateExtendable.text = response.ctrFechaFinpro;
+      isExtendable = response.ctrDateEndPro.isNotEmpty &&
+          response.ctrDateEndPro.isNotEmpty;
+      startDateExtendable.text = response.ctrDateEndPro;
+      endDateExtendable.text = response.ctrDateEndPro;
       return true;
     } catch (e) {
       return false;
@@ -284,7 +284,7 @@ class ContractsProvider extends ChangeNotifier {
   List<ContractCompanies> companies = [];
   Future<bool> getCompanies() async {
     try {
-      final resp = await DioConexion.get_('/contracts/get/companies');
+      final resp = await DioConnection.get_('/contracts/get/companies');
       final response = CompaniesResponse.fromJson(resp);
       companies = response.data;
       return true;
@@ -298,7 +298,7 @@ class ContractsProvider extends ChangeNotifier {
   List<ListHoursCtr> schedules = [];
   Future<bool> getSchedules() async {
     try {
-      final resp = await DioConexion.get_('/contracts/list/schedule/$uuid');
+      final resp = await DioConnection.get_('/contracts/list/schedule/$uuid');
       final response = ListHoursCtrResponse.fromJson(resp);
       schedules = response.data;
       return true;
@@ -327,14 +327,14 @@ class ContractsProvider extends ChangeNotifier {
         "marca_ctr_empre": company.text,
       };
       if (uuid != null) {
-        await DioConexion.put_('/contracts/$uuid', data);
+        await DioConnection.put_('/contracts/$uuid', data);
         NotificationsService.showSnackbarSuccess("Contrato Actualizado");
         NavigationService.goBack();
       } else {
-        var respo = await DioConexion.post_('/contracts', data);
+        var res = await DioConnection.post_('/contracts', data);
         NotificationsService.showSnackbarSuccess("Contrato creado");
         NavigationService.navigateTo(
-          "/contracts/schedules/${respo["data"]["ctr_codigo"]}",
+          "/contracts/schedules/${res["data"]["ctr_codigo"]}",
         );
       }
       await getContracts();
@@ -343,7 +343,6 @@ class ContractsProvider extends ChangeNotifier {
       return false;
     } finally {
       loading = false;
-      // limpiar();
     }
   }
 
@@ -352,7 +351,7 @@ class ContractsProvider extends ChangeNotifier {
       if (loading) return;
       loading = true;
       notifyListeners();
-      await DioConexion.put_(
+      await DioConnection.put_(
         '/contracts/schedule/${dataSend.horCodigo}',
         dataSend.toJson(),
       );
@@ -371,7 +370,7 @@ class ContractsProvider extends ChangeNotifier {
       loading = true;
       notifyListeners();
       var data = RequestSchedule(list: schedule).toJson();
-      var resp = await DioConexion.post_(
+      var resp = await DioConnection.post_(
         '/contracts/schedule/${contract?.ctrCodigo}',
         data,
       );
@@ -391,7 +390,7 @@ class ContractsProvider extends ChangeNotifier {
 
   updateScheduleEmpCtr(asiCode, codHor) async {
     try {
-      await DioConexion.put_(
+      await DioConnection.put_(
         '/contracts/schedule/$asiCode/$codHor',
         {},
       );
@@ -402,7 +401,7 @@ class ContractsProvider extends ChangeNotifier {
 
   Future<bool> deleteContracts(String id) async {
     try {
-      await DioConexion.delete_('/contracts/$id');
+      await DioConnection.delete_('/contracts/$id');
       NotificationsService.showSnackbarSuccess("Contrato Eliminado");
       await getContracts();
       return true;
@@ -415,7 +414,7 @@ class ContractsProvider extends ChangeNotifier {
 
   Future<bool> deleteSchedule(String id) async {
     try {
-      await DioConexion.delete_('/contracts/schedule/$id');
+      await DioConnection.delete_('/contracts/schedule/$id');
       NotificationsService.showSnackbarSuccess("Horario Eliminado");
       await getSchedules();
       return true;

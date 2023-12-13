@@ -20,7 +20,7 @@ class CompaniesView extends StatelessWidget {
         child: ListView(
           physics: const ClampingScrollPhysics(),
           children: const [
-            BreadCrumWidget(
+            BreadCrumbsWidget(
               title: 'Empresas',
             ),
             _BodyCompaniesWidget(),
@@ -62,22 +62,22 @@ class _BodyCompaniesWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 50),
-          const _EmployesFormWidget(),
-          const ListEmployesWidget()
+          const _EmployeesFormWidget(),
+          const ListEmployeesWidget()
         ],
       ),
     );
   }
 }
 
-class _EmployesFormWidget extends StatefulWidget {
-  const _EmployesFormWidget();
+class _EmployeesFormWidget extends StatefulWidget {
+  const _EmployeesFormWidget();
 
   @override
-  State<_EmployesFormWidget> createState() => _EmployesFormWidgetState();
+  State<_EmployeesFormWidget> createState() => _EmployeesFormWidgetState();
 }
 
-class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
+class _EmployeesFormWidgetState extends State<_EmployeesFormWidget> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<CompaniesProvider>(context);
@@ -97,11 +97,11 @@ class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
                   label: "Nombre de la empresa",
                   hinText: 'Escribe el nombre de la empresa',
                   controller: provider.companyName,
-                  validaciones: const [
+                  validations: const [
                     minLength5,
                   ],
                   onChange: (valor) {
-                    provider.validarInput();
+                    provider.validInput();
                   },
                 ),
               ),
@@ -112,12 +112,12 @@ class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
                   isDark: true,
                   label: "Dirección de la empresa",
                   hinText: 'Escribe el la dirección de la empresa',
-                  controller: provider.companyAdress,
-                  validaciones: const [
+                  controller: provider.companyAddress,
+                  validations: const [
                     minLength5,
                   ],
                   onChange: (valor) {
-                    provider.validarInput();
+                    provider.validInput();
                   },
                 ),
               ),
@@ -128,12 +128,12 @@ class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
                   isDark: true,
                   label: "Persona de contacto",
                   hinText: 'Escribe el nombre de la persona a contactar ',
-                  validaciones: const [
+                  validations: const [
                     minLength5,
                   ],
                   controller: provider.companyContact,
                   onChange: (valor) {
-                    provider.validarInput();
+                    provider.validInput();
                   },
                 ),
               ),
@@ -146,11 +146,11 @@ class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
                   hinText:
                       'Escribe el correo de la persona de la empresa a contactar',
                   controller: provider.companyEmail,
-                  validaciones: const [
+                  validations: const [
                     validationIsEmail,
                   ],
                   onChange: (valor) {
-                    provider.validarInput();
+                    provider.validInput();
                   },
                 ),
               ),
@@ -161,7 +161,7 @@ class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
                   isDark: true,
                   label: "Teléfono de contacto",
                   hinText: '+503 #### ####',
-                  validaciones: const [
+                  validations: const [
                     minLength10,
                   ],
                   inputFormatters: [
@@ -173,7 +173,7 @@ class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
                   ],
                   controller: provider.companyPhone,
                   onChange: (valor) {
-                    provider.validarInput();
+                    provider.validInput();
                   },
                 ),
               ),
@@ -201,16 +201,16 @@ class _EmployesFormWidgetState extends State<_EmployesFormWidget> {
   }
 }
 
-class ListEmployesWidget extends StatefulWidget {
-  const ListEmployesWidget({
+class ListEmployeesWidget extends StatefulWidget {
+  const ListEmployeesWidget({
     super.key,
   });
 
   @override
-  State<ListEmployesWidget> createState() => _ListEmployesWidgetState();
+  State<ListEmployeesWidget> createState() => _ListEmployeesWidgetState();
 }
 
-class _ListEmployesWidgetState extends State<ListEmployesWidget> {
+class _ListEmployeesWidgetState extends State<ListEmployeesWidget> {
   @override
   void initState() {
     super.initState();
@@ -241,7 +241,7 @@ class _ListEmployesWidgetState extends State<ListEmployesWidget> {
           ],
           // header: const SizedBox(),
           // arrowHeadColor: const Color(0XFFF3F3F4),
-          source: CompanieTDS(provider.companies, context),
+          source: CompaniesTDS(provider.companies, context),
           onRowsPerPageChanged: (value) {
             setState(() {
               _rowsPerPage = value ?? 10;
@@ -249,18 +249,6 @@ class _ListEmployesWidgetState extends State<ListEmployesWidget> {
           },
           horizontalMargin: 10,
           rowsPerPage: _rowsPerPage,
-          // actions: [
-          //   CustomIconButton(
-          //     onPressed: () {
-          //       showModalBottomSheet(
-          //           backgroundColor: Colors.transparent,
-          //           context: context,
-          //           builder: (_) => CategoryModal(categoria: null));
-          //     },
-          //     text: 'Crear',
-          //     icon: Icons.add_outlined,
-          //   )
-          // ],
         ),
       ),
     );

@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 void main() async {
   await LocalStorage.configurePrefs();
   Flurorouter.configureRoutes();
-  DioConexion.configureDio();
+  DioConnection.configureDio();
   runApp(
     const AppProvider(
       child: MyApp(),
@@ -50,7 +50,6 @@ class MyApp extends StatelessWidget {
             OverlayEntry(
               builder: (context) {
                 final authProvider = Provider.of<AuthProvider>(context);
-
                 if (authProvider.authStatus == AuthStatus.checking) {
                   return const SplashLayout();
                 }

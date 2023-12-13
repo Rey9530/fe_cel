@@ -15,7 +15,7 @@ class TextFormFieldCustomWidget extends StatefulWidget {
     this.onChange,
     this.onFieldSubmitted,
     this.isDark = false,
-    this.autofocus = false,
+    this.autoFocus = false,
     this.readOnly = false,
     this.suffixIcon,
     this.contentPadding,
@@ -24,14 +24,14 @@ class TextFormFieldCustomWidget extends StatefulWidget {
     this.textAlign = TextAlign.start,
     this.floatingLabelBehavior = FloatingLabelBehavior.always,
     this.inputFormatters,
-    this.validaciones,
+    this.validations,
   });
   final FontWeight fontWeight;
   final TextAlign textAlign;
   final double? fontSize;
   final EdgeInsetsGeometry? contentPadding;
   final bool isDark;
-  final bool autofocus;
+  final bool autoFocus;
   final bool readOnly;
   final Function? onChange;
   final Function(String)? onFieldSubmitted;
@@ -44,7 +44,7 @@ class TextFormFieldCustomWidget extends StatefulWidget {
   final FloatingLabelBehavior? floatingLabelBehavior;
   final Widget? suffixIcon;
   final List<TextInputFormatter>? inputFormatters;
-  final List<Function(String)>? validaciones;
+  final List<Function(String)>? validations;
   @override
   State<TextFormFieldCustomWidget> createState() =>
       _TextFormFieldCustomWidgetState();
@@ -77,7 +77,7 @@ class _TextFormFieldCustomWidgetState extends State<TextFormFieldCustomWidget> {
     return TextFormField(
       textAlign: widget.textAlign,
       readOnly: widget.readOnly,
-      autofocus: widget.autofocus,
+      autofocus: widget.autoFocus,
       inputFormatters: widget.inputFormatters,
       onFieldSubmitted: widget.onFieldSubmitted,
       cursorColor: widget.isDark ? getTheme(context).primary : Colors.white,
@@ -89,12 +89,12 @@ class _TextFormFieldCustomWidgetState extends State<TextFormFieldCustomWidget> {
         if (valor == null || valor.isEmpty) {
           return "Este campo es requerido ";
         }
-        if (widget.validaciones != null && widget.validaciones!.isNotEmpty) {
-          for (var i = 0; i < widget.validaciones!.length; i++) {
-            var functionn = widget.validaciones![i];
-            var respValidacion = functionn(valor);
-            if (respValidacion != null) {
-              return respValidacion;
+        if (widget.validations != null && widget.validations!.isNotEmpty) {
+          for (var i = 0; i < widget.validations!.length; i++) {
+            var function = widget.validations![i];
+            var respValid = function(valor);
+            if (respValid != null) {
+              return respValid;
             }
           }
         }
@@ -153,7 +153,7 @@ class _TextFormFieldCustomWidgetState extends State<TextFormFieldCustomWidget> {
             : widget.suffixIcon,
         labelText: widget.label,
         hintText: widget.hinText,
-        hintStyle: const TextStyle(color: hintextPassword),
+        hintStyle: const TextStyle(color: hinTextPassword),
         border: OutlineInputBorder(
           borderSide: BorderSide(
             color: widget.isDark ? getTheme(context).primary : Colors.white,

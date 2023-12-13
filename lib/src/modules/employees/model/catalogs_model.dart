@@ -33,7 +33,7 @@ class CatalogData {
   final List<Sede> sedes;
   final List<Contratation> contratation;
   final List<Gender> gender;
-  final List<Company> companies;
+  final List<CompanyCat> companies;
 
   CatalogData({
     required this.sedes,
@@ -48,8 +48,8 @@ class CatalogData {
             json["contratation"].map((x) => Contratation.fromJson(x))),
         gender:
             List<Gender>.from(json["gender"].map((x) => Gender.fromJson(x))),
-        companies: List<Company>.from(
-            json["companies"].map((x) => Company.fromJson(x))),
+        companies: List<CompanyCat>.from(
+            json["companies"].map((x) => CompanyCat.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -60,16 +60,16 @@ class CatalogData {
       };
 }
 
-class Company {
+class CompanyCat {
   final String eprCodigo;
   final String eprNombre;
 
-  Company({
+  CompanyCat({
     required this.eprCodigo,
     required this.eprNombre,
   });
 
-  factory Company.fromJson(Map<String, dynamic> json) => Company(
+  factory CompanyCat.fromJson(Map<String, dynamic> json) => CompanyCat(
         eprCodigo: json["epr_codigo"],
         eprNombre: json["epr_nombre"],
       );

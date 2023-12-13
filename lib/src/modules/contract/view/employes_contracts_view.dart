@@ -12,26 +12,26 @@ import 'package:provider/provider.dart';
 import 'package:marcacion_admin/src/common/widgets/widgets.dart';
 import 'package:marcacion_admin/src/modules/contract/viewmodel/contracts_provider.dart';
 
-class EmployesContractsView extends StatelessWidget {
-  const EmployesContractsView({super.key, this.uuid});
+class EmployeesContractsView extends StatelessWidget {
+  const EmployeesContractsView({super.key, this.uuid});
   final String? uuid;
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ContractsProvider>(context, listen: false);
     return FutureBuilder(
-      future: provider.loadToEmployes(uuid),
+      future: provider.loadToEmployees(uuid),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
-        return const EmployesBodyWidget();
+        return const EmployeesBodyWidget();
       },
     );
   }
 }
 
-class EmployesBodyWidget extends StatelessWidget {
-  const EmployesBodyWidget({
+class EmployeesBodyWidget extends StatelessWidget {
+  const EmployeesBodyWidget({
     super.key,
   });
 
@@ -43,15 +43,15 @@ class EmployesBodyWidget extends StatelessWidget {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          BreadCrumWidget(
+          BreadCrumbsWidget(
             title:
-                'Contratos / ${provider.contract?.ctrNombre ?? ''} / Empleados',
+                'Contratos / ${provider.contract?.ctrName ?? ''} / Empleados',
           ),
           const SizedBox(height: 50),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: GoBackWidget(
-              functionn: () {
+              function: () {
                 NavigationService.replaceTo(Flurorouter.contractsRoute);
               },
             ),
@@ -93,7 +93,7 @@ class ListHoursWidgets extends StatelessWidget {
           children: [
             _SearchTextfieldWidget(),
             SizedBox(height: 10),
-            TableEmployesContract(),
+            TableEmployeesContract(),
           ],
         ),
         ListItemSearchWidget(),
@@ -102,8 +102,8 @@ class ListHoursWidgets extends StatelessWidget {
   }
 }
 
-class TableEmployesContract extends StatelessWidget {
-  const TableEmployesContract({
+class TableEmployeesContract extends StatelessWidget {
+  const TableEmployeesContract({
     super.key,
   });
 
@@ -129,19 +129,10 @@ class TableEmployesContract extends StatelessWidget {
             DataColumn(label: Text('Horario', style: style)),
             DataColumn(label: Text('Acciones', style: style)),
           ],
-          source: EmployesContractsTDS(
+          source: EmployeesContractsTDS(
               provider.emplContract, context, provider.emplContract.length),
-          // onPageChanged: (value) async {
-          //   provider.quantity = value;
-          //   await provider.getEmployes(true);
-          // },
-          onRowsPerPageChanged: (value) async {
-            // provider.quantity = value ?? 10;
-            // await provider.getEmployes(true);
-            // setState(() {
-            //   _rowsPerPage = value ?? 10;
-            // });
-          },
+
+          onRowsPerPageChanged: (value) async {},
           // rowsPerPage: _rowsPerPage,
           headingRowColor: MaterialStateProperty.all(headerRowTable),
         ),
@@ -158,7 +149,7 @@ class ListItemSearchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ContractsProvider>(context);
-    return provider.employes.isNotEmpty
+    return provider.employees.isNotEmpty
         ? Positioned(
             top: 60,
             child: Container(
@@ -184,9 +175,9 @@ class ListItemSearchWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 10),
-                    for (var employe in provider.employes)
-                      ItemSeacrhWidget(
-                        employe: employe,
+                    for (var employee in provider.employees)
+                      ItemSearchWidget(
+                        employee: employee,
                       ),
                   ],
                 ),
@@ -197,24 +188,24 @@ class ListItemSearchWidget extends StatelessWidget {
   }
 }
 
-class ItemSeacrhWidget extends StatelessWidget {
-  const ItemSeacrhWidget({
+class ItemSearchWidget extends StatelessWidget {
+  const ItemSearchWidget({
     super.key,
-    required this.employe,
+    required this.employee,
   });
-  final EmployesContract employe;
+  final EmployeesContract employee;
 
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ContractsProvider>(context, listen: false);
     return InkWell(
       onTap: () async {
-        await provider.agregarItem(employe.empCodigo);
+        await provider.addItem(employee.empCodigo);
       },
       child: SizedBox(
         height: 40,
         child: Text(
-          "${employe.empNombres} ${employe.empApellidos} (${employe.empCodigoEmp})",
+          "${employee.empNombres} ${employee.empApellidos} (${employee.empCodigoEmp})",
           style: TextStyle(
             color: Color(0XFF1D1D00),
             fontWeight: FontWeight.w400,
@@ -245,7 +236,7 @@ class _SearchTextfieldWidgetState extends State<_SearchTextfieldWidget> {
       // do something with query
       var provider = Provider.of<ContractsProvider>(context, listen: false);
       provider.query = query;
-      await provider.getEmployes();
+      await provider.getEmployees();
       setState(() {
         loading = false;
       });
@@ -260,7 +251,6 @@ class _SearchTextfieldWidgetState extends State<_SearchTextfieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // var provider = Provider.of<EmployesProvider>(context, listen: false);
     return SizedBox(
       width: 500,
       child: TextFormField(

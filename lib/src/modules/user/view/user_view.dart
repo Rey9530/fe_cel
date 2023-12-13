@@ -16,7 +16,7 @@ class UserView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          BreadCrumWidget(
+          BreadCrumbsWidget(
             showLogout: false,
             title: 'Usuario',
           ),
@@ -248,7 +248,7 @@ class ContainItemWidget extends StatelessWidget {
           title,
           style: TextStyle(
             fontWeight: FontWeight.w300,
-            color: isOk ? getTheme(context).primary : hintextPassword,
+            color: isOk ? getTheme(context).primary : hinTextPassword,
           ),
         ),
       ],

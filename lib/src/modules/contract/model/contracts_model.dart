@@ -28,104 +28,105 @@ class ContractsResponse {
 
 class Contract {
   final String ctrCodigo;
-  final String ctrNombre;
+  final String ctrName;
   final String ctrNumContrato;
   final int ctrHorasExtras;
-  final String ctrFechaInicio;
-  final String ctrFechaFin;
-  final String ctrFechaInipro;
-  final String ctrFechaFinpro;
-  final String ctrEstado;
-  final DateTime ctrFeccrea;
-  final DateTime ctrFecmod;
-  final String ctrUsrcrea;
-  final String ctrUsrmod;
-  final String ctrCodepr;
-  final MarEprEmpresas marEprEmpresas;
+  final String ctrDateStart;
+  final String ctrDateEnd;
+  final String ctrDateStartPro;
+  final String ctrDateEndPro;
+  final String ctrStatus;
+  final DateTime ctrFecCreate;
+  final DateTime ctrFecUpdate;
+  final String ctrUsrCreate;
+  final String ctrUsrUpdate;
+  final String ctrCodePr;
+  final MarEprCompanies marEprCompanies;
 
   Contract({
     required this.ctrCodigo,
-    required this.ctrNombre,
+    required this.ctrName,
     required this.ctrNumContrato,
     required this.ctrHorasExtras,
-    required this.ctrFechaInicio,
-    required this.ctrFechaFin,
-    required this.ctrFechaInipro,
-    required this.ctrFechaFinpro,
-    required this.ctrEstado,
-    required this.ctrFeccrea,
-    required this.ctrFecmod,
-    required this.ctrUsrcrea,
-    required this.ctrUsrmod,
-    required this.ctrCodepr,
-    required this.marEprEmpresas,
+    required this.ctrDateStart,
+    required this.ctrDateEnd,
+    required this.ctrDateStartPro,
+    required this.ctrDateEndPro,
+    required this.ctrStatus,
+    required this.ctrFecCreate,
+    required this.ctrFecUpdate,
+    required this.ctrUsrCreate,
+    required this.ctrUsrUpdate,
+    required this.ctrCodePr,
+    required this.marEprCompanies,
   });
 
   factory Contract.fromJson(Map<String, dynamic> json) => Contract(
         ctrCodigo: json["ctr_codigo"],
-        ctrNombre: json["ctr_nombre"],
+        ctrName: json["ctr_nombre"],
         ctrNumContrato: json["ctr_num_contrato"],
         ctrHorasExtras: json["ctr_horas_extras"],
-        ctrFechaInicio: json["ctr_fecha_inicio"] != null
+        ctrDateStart: json["ctr_fecha_inicio"] != null
             ? DateFormat("dd/MM/y")
                 .format(DateTime.parse(json["ctr_fecha_inicio"]))
             : "",
-        ctrFechaFin: json["ctr_fecha_fin"] != null
+        ctrDateEnd: json["ctr_fecha_fin"] != null
             ? DateFormat("dd/MM/y")
                 .format(DateTime.parse(json["ctr_fecha_fin"]))
             : "",
-        ctrFechaInipro: json["ctr_fecha_inipro"] != null
+        ctrDateStartPro: json["ctr_fecha_inipro"] != null
             ? DateFormat("dd/MM/y")
                 .format(DateTime.parse(json["ctr_fecha_inipro"]))
             : "",
-        ctrFechaFinpro: json["ctr_fecha_finpro"] != null
+        ctrDateEndPro: json["ctr_fecha_finpro"] != null
             ? DateFormat("dd/MM/y")
                 .format(DateTime.parse(json["ctr_fecha_finpro"]))
             : "",
-        ctrEstado: json["ctr_estado"],
-        ctrFeccrea: DateTime.parse(json["ctr_feccrea"]),
-        ctrFecmod: DateTime.parse(json["ctr_fecmod"]),
-        ctrUsrcrea: json["ctr_usrcrea"],
-        ctrUsrmod: json["ctr_usrmod"],
-        ctrCodepr: json["ctr_codepr"],
-        marEprEmpresas: MarEprEmpresas.fromJson(json["mar_epr_empresas"]),
+        ctrStatus: json["ctr_estado"],
+        ctrFecCreate: DateTime.parse(json["ctr_feccrea"]),
+        ctrFecUpdate: DateTime.parse(json["ctr_fecmod"]),
+        ctrUsrCreate: json["ctr_usrcrea"],
+        ctrUsrUpdate: json["ctr_usrmod"],
+        ctrCodePr: json["ctr_codepr"],
+        marEprCompanies: MarEprCompanies.fromJson(json["mar_epr_empresas"]),
       );
 
   Map<String, dynamic> toJson() => {
         "ctr_codigo": ctrCodigo,
-        "ctr_nombre": ctrNombre,
+        "ctr_nombre": ctrName,
         "ctr_num_contrato": ctrNumContrato,
         "ctr_horas_extras": ctrHorasExtras,
-        "ctr_fecha_inicio": ctrFechaInicio,
-        "ctr_fecha_fin": ctrFechaFin,
-        "ctr_fecha_inipro": ctrFechaInipro,
-        "ctr_fecha_finpro": ctrFechaFinpro,
-        "ctr_estado": ctrEstado,
-        "ctr_feccrea": ctrFeccrea.toIso8601String(),
-        "ctr_fecmod": ctrFecmod.toIso8601String(),
-        "ctr_usrcrea": ctrUsrcrea,
-        "ctr_usrmod": ctrUsrmod,
-        "ctr_codepr": ctrCodepr,
-        "mar_epr_empresas": marEprEmpresas.toJson(),
+        "ctr_fecha_inicio": ctrDateStart,
+        "ctr_fecha_fin": ctrDateEnd,
+        "ctr_fecha_inipro": ctrDateStartPro,
+        "ctr_fecha_finpro": ctrDateEndPro,
+        "ctr_estado": ctrStatus,
+        "ctr_feccrea": ctrFecCreate.toIso8601String(),
+        "ctr_fecmod": ctrFecUpdate.toIso8601String(),
+        "ctr_usrcrea": ctrUsrCreate,
+        "ctr_usrmod": ctrUsrUpdate,
+        "ctr_codepr": ctrCodePr,
+        "mar_epr_empresas": marEprCompanies.toJson(),
       };
 }
 
-class MarEprEmpresas {
-  final String eprNombre;
+class MarEprCompanies {
+  final String eprName;
   final String eprCodigo;
 
-  MarEprEmpresas({
-    required this.eprNombre,
+  MarEprCompanies({
+    required this.eprName,
     required this.eprCodigo,
   });
 
-  factory MarEprEmpresas.fromJson(Map<String, dynamic> json) => MarEprEmpresas(
-        eprNombre: json["epr_nombre"] ?? '',
+  factory MarEprCompanies.fromJson(Map<String, dynamic> json) =>
+      MarEprCompanies(
+        eprName: json["epr_nombre"] ?? '',
         eprCodigo: json["epr_codigo"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
-        "epr_nombre": eprNombre,
+        "epr_nombre": eprName,
         "epr_codigo": eprCodigo,
       };
 }

@@ -3,14 +3,14 @@ import 'package:marcacion_admin/src/common/const/const.dart';
 import 'package:marcacion_admin/src/common/models/error_model.dart';
 import 'package:marcacion_admin/src/common/services/services.dart';
 
-class DioConexion {
+class DioConnection {
   static final Dio _dio = Dio();
 
   static void configureDio() {
     // Base del url
     _dio.options.baseUrl = APIURL;
 
-    // Configurar Headers
+    // Config Headers
     _dio.options.headers = {
       'Authorization': 'Bearer ${LocalStorage.prefs.getString('token') ?? ''}'
     };

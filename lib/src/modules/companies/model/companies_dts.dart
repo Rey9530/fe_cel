@@ -5,33 +5,32 @@ import 'package:marcacion_admin/src/modules/companies/model/companies_model.dart
 import 'package:marcacion_admin/src/modules/companies/viewmodel/companies_provider.dart';
 import 'package:provider/provider.dart';
 
-class CompanieTDS extends DataTableSource {
-  final List<Companie> companies;
+class CompaniesTDS extends DataTableSource {
+  final List<Company> companies;
   final BuildContext context;
 
-  CompanieTDS(this.companies, this.context);
+  CompaniesTDS(this.companies, this.context);
 
   @override
   DataRow? getRow(int index) {
-    final companie = companies[index];
+    final company = companies[index];
     return DataRow.byIndex(
       color:
           MaterialStateColor.resolveWith((states) => const Color(0XFFFFFFFF)),
       index: index,
       cells: [
-        DataCell(Text(companie.eprNombre)),
-        DataCell(Text(companie.eprDireccion)),
-        DataCell(Text(companie.eprContactoNombre)),
-        DataCell(Text(companie.eprContactoCorreo)),
-        DataCell(Text(companie.eprContactoTelefono)),
-        // Text(companie.marcaEmprePk)
+        DataCell(Text(company.eprName)),
+        DataCell(Text(company.eprAddress)),
+        DataCell(Text(company.eprContactName)),
+        DataCell(Text(company.eprContactEmail)),
+        DataCell(Text(company.eprContactPhone)),
         DataCell(
           Row(
             children: [
               IconButton(
                 onPressed: () {
                   Provider.of<CompaniesProvider>(context, listen: false)
-                      .edit(companie);
+                      .edit(company);
                 },
                 icon: Container(
                   width: 50,
@@ -51,7 +50,7 @@ class CompanieTDS extends DataTableSource {
                       children: [
                         Image.asset("assets/icons/borrarred.png"),
                         Text(
-                          'Eliminar ${companie.eprNombre}',
+                          'Eliminar ${company.eprName}',
                           style: const TextStyle(color: error),
                         ),
                       ],
@@ -76,7 +75,7 @@ class CompanieTDS extends DataTableSource {
                             onPress: () {
                               Provider.of<CompaniesProvider>(context,
                                       listen: false)
-                                  .deleteEmployes(companie.eprCodigo);
+                                  .deleteEmployees(company.eprCode);
 
                               Navigator.pop(context);
                             },

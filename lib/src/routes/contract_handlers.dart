@@ -62,7 +62,7 @@ class ContractHandlers {
 
       if (authProvider.authStatus == AuthStatus.authenticated) {
         String? uuid = params['uuid']?.first;
-        return EmployesContractsView(uuid: uuid);
+        return EmployeesContractsView(uuid: uuid);
       } else {
         return const LoginView();
       }

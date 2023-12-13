@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marcacion_admin/src/common/helpers/helpers.dart';
-import 'package:marcacion_admin/src/common/models/dropdown_buttom_data_model.dart';
+import 'package:marcacion_admin/src/common/models/dropdown_button_data_model.dart';
 
 class SelectCompaniesWidget extends StatefulWidget {
   const SelectCompaniesWidget({
@@ -38,10 +38,10 @@ class SelectCompaniesWidgetState extends State<SelectCompaniesWidget> {
     super.initState();
     if (widget.selected != null) {
       dropdownvalue = widget.selected?.id ?? '0';
-      var ifExis = widget.items
+      var ifExist = widget.items
           ?.where((element) => element.id == dropdownvalue)
           .toList();
-      if (ifExis != null && ifExis.isEmpty) {
+      if (ifExist != null && ifExist.isEmpty) {
         dropdownvalue = '0';
       }
     }

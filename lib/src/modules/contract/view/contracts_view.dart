@@ -18,7 +18,7 @@ class ContractsView extends StatelessWidget {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: const [
-          BreadCrumWidget(
+          BreadCrumbsWidget(
             title: 'Contratos',
           ),
           _BodyContract(),

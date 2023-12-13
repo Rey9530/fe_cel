@@ -17,7 +17,7 @@ class AppProvider extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => ContractsProvider()),
         ChangeNotifierProvider(lazy: false, create: (_) => SideMenuProvider()),
-        ChangeNotifierProvider(lazy: false, create: (_) => EmployesProvider()),
+        ChangeNotifierProvider(lazy: false, create: (_) => EmployeesProvider()),
       ],
       child: child,
     );

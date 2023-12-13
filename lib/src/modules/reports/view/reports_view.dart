@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marcacion_admin/src/common/models/dropdown_buttom_data_model.dart';
+import 'package:marcacion_admin/src/common/models/dropdown_button_data_model.dart';
 import 'package:marcacion_admin/src/common/widgets/widgets.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
@@ -13,7 +13,7 @@ class ReportsView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          BreadCrumWidget(
+          BreadCrumbsWidget(
             title: 'Reportes',
           ),
           BodyReportsWidget(),

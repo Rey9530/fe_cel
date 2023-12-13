@@ -46,7 +46,7 @@ class UserProvider extends ChangeNotifier {
     try {
       loading = true;
       notifyListeners();
-      final resp = await DioConexion.post_('/users/update/password', data);
+      final resp = await DioConnection.post_('/users/update/password', data);
 
       notifyListeners();
       if (resp['status'] != null) {

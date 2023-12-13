@@ -1,18 +1,18 @@
-class EmployesContractResponse {
-  final List<EmployesContract> data;
+class EmployeesContractResponse {
+  final List<EmployeesContract> data;
   final int status;
   final String message;
 
-  EmployesContractResponse({
+  EmployeesContractResponse({
     required this.data,
     required this.status,
     required this.message,
   });
 
-  factory EmployesContractResponse.fromJson(Map<String, dynamic> json) =>
-      EmployesContractResponse(
-        data: List<EmployesContract>.from(
-            json["data"].map((x) => EmployesContract.fromJson(x))),
+  factory EmployeesContractResponse.fromJson(Map<String, dynamic> json) =>
+      EmployeesContractResponse(
+        data: List<EmployeesContract>.from(
+            json["data"].map((x) => EmployeesContract.fromJson(x))),
         status: json["status"],
         message: json["message"],
       );
@@ -24,21 +24,21 @@ class EmployesContractResponse {
       };
 }
 
-class EmployesContract {
+class EmployeesContract {
   final String empCodigo;
   final String empNombres;
   final String empApellidos;
   final String empCodigoEmp;
 
-  EmployesContract({
+  EmployeesContract({
     required this.empCodigo,
     required this.empNombres,
     required this.empApellidos,
     required this.empCodigoEmp,
   });
 
-  factory EmployesContract.fromJson(Map<String, dynamic> json) =>
-      EmployesContract(
+  factory EmployeesContract.fromJson(Map<String, dynamic> json) =>
+      EmployeesContract(
         empCodigo: json["emp_codigo"],
         empNombres: json["emp_nombres"],
         empApellidos: json["emp_apellidos"],

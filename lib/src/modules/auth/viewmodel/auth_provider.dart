@@ -20,7 +20,7 @@ class AuthProvider extends ChangeNotifier {
     };
 
     try {
-      final resp = await DioConexion.post_('/users/login', data);
+      final resp = await DioConnection.post_('/users/login', data);
       final authResponse = UserModel.fromJson(resp);
       user = authResponse.data;
       authStatus = AuthStatus.authenticated;
@@ -28,7 +28,7 @@ class AuthProvider extends ChangeNotifier {
       LocalStorage.prefs.setString('nombres', user!.usrNombres);
       LocalStorage.prefs.setString('apellidos', user!.usrApellidos);
       LocalStorage.prefs.setString('codigo', user!.usrCodigoEmple);
-      DioConexion.configureDio();
+      DioConnection.configureDio();
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
 
       notifyListeners();
@@ -50,7 +50,7 @@ class AuthProvider extends ChangeNotifier {
     }
 
     try {
-      final resp = await DioConexion.get_('/users/check-status');
+      final resp = await DioConnection.get_('/users/check-status');
       final authReponse = UserModel.fromJson(resp);
       LocalStorage.prefs.setString('token', authReponse.data.token);
       user = authReponse.data;

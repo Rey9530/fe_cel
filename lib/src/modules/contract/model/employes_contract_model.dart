@@ -1,16 +1,16 @@
-class EmployesScheduleResponse {
+class EmployeesScheduleResponse {
   final List<EmpSchedule> data;
   final int status;
   final String message;
 
-  EmployesScheduleResponse({
+  EmployeesScheduleResponse({
     required this.data,
     required this.status,
     required this.message,
   });
 
-  factory EmployesScheduleResponse.fromJson(Map<String, dynamic> json) =>
-      EmployesScheduleResponse(
+  factory EmployeesScheduleResponse.fromJson(Map<String, dynamic> json) =>
+      EmployeesScheduleResponse(
         data: List<EmpSchedule>.from(
             json["data"].map((x) => EmpSchedule.fromJson(x))),
         status: json["status"],
@@ -27,96 +27,93 @@ class EmployesScheduleResponse {
 class EmpSchedule {
   final String asiCodhor;
   final String asiCodigo;
-  final MarEmpEmpleados marEmpEmpleados;
+  final MarEmpEmployees marEmpEmployees;
 
   EmpSchedule({
     required this.asiCodhor,
     required this.asiCodigo,
-    required this.marEmpEmpleados,
+    required this.marEmpEmployees,
   });
 
   factory EmpSchedule.fromJson(Map<String, dynamic> json) => EmpSchedule(
         asiCodhor: json["asi_codhor"],
         asiCodigo: json["asi_codigo"],
-        marEmpEmpleados: MarEmpEmpleados.fromJson(json["mar_emp_empleados"]),
+        marEmpEmployees: MarEmpEmployees.fromJson(json["mar_emp_empleados"]),
       );
 
   Map<String, dynamic> toJson() => {
         "asi_codhor": asiCodhor,
         "asi_codigo": asiCodigo,
-        "mar_emp_empleados": marEmpEmpleados.toJson(),
+        "mar_emp_empleados": marEmpEmployees.toJson(),
       };
 }
 
-class MarEmpEmpleados {
+class MarEmpEmployees {
   final String empNombres;
-  final String empApellidos;
+  final String empSurnames;
   final String empCodigo;
   final String empCodigoEmp;
-  final MarUbiUbicaciones marUbiUbicaciones;
-  final MarConContrataciones marConContrataciones;
+  final MarUbiLocations marUbiLocations;
+  final MarConHiring marConHiring;
 
-  MarEmpEmpleados({
+  MarEmpEmployees({
     required this.empNombres,
-    required this.empApellidos,
+    required this.empSurnames,
     required this.empCodigo,
     required this.empCodigoEmp,
-    required this.marUbiUbicaciones,
-    required this.marConContrataciones,
+    required this.marUbiLocations,
+    required this.marConHiring,
   });
 
-  factory MarEmpEmpleados.fromJson(Map<String, dynamic> json) =>
-      MarEmpEmpleados(
+  factory MarEmpEmployees.fromJson(Map<String, dynamic> json) =>
+      MarEmpEmployees(
         empNombres: json["emp_nombres"],
-        empApellidos: json["emp_apellidos"],
+        empSurnames: json["emp_apellidos"],
         empCodigo: json["emp_codigo"],
         empCodigoEmp: json["emp_codigo_emp"],
-        marUbiUbicaciones:
-            MarUbiUbicaciones.fromJson(json["mar_ubi_ubicaciones"]),
-        marConContrataciones:
-            MarConContrataciones.fromJson(json["mar_con_contrataciones"]),
+        marUbiLocations: MarUbiLocations.fromJson(json["mar_ubi_ubicaciones"]),
+        marConHiring: MarConHiring.fromJson(json["mar_con_contrataciones"]),
       );
 
   Map<String, dynamic> toJson() => {
         "emp_nombres": empNombres,
-        "emp_apellidos": empApellidos,
+        "emp_apellidos": empSurnames,
         "emp_codigo": empCodigo,
         "emp_codigo_emp": empCodigoEmp,
-        "mar_ubi_ubicaciones": marUbiUbicaciones.toJson(),
-        "mar_con_contrataciones": marConContrataciones.toJson(),
+        "mar_ubi_ubicaciones": marUbiLocations.toJson(),
+        "mar_con_contrataciones": marConHiring.toJson(),
       };
 }
 
-class MarConContrataciones {
-  final String conNombre;
+class MarConHiring {
+  final String conNames;
 
-  MarConContrataciones({
-    required this.conNombre,
+  MarConHiring({
+    required this.conNames,
   });
 
-  factory MarConContrataciones.fromJson(Map<String, dynamic> json) =>
-      MarConContrataciones(
-        conNombre: json["con_nombre"],
+  factory MarConHiring.fromJson(Map<String, dynamic> json) => MarConHiring(
+        conNames: json["con_nombre"],
       );
 
   Map<String, dynamic> toJson() => {
-        "con_nombre": conNombre,
+        "con_nombre": conNames,
       };
 }
 
-class MarUbiUbicaciones {
-  final String ubiNombre;
+class MarUbiLocations {
+  final String ubiNames;
 
-  MarUbiUbicaciones({
-    required this.ubiNombre,
+  MarUbiLocations({
+    required this.ubiNames,
   });
 
-  factory MarUbiUbicaciones.fromJson(Map<String, dynamic> json) =>
-      MarUbiUbicaciones(
-        ubiNombre: json["ubi_nombre"],
+  factory MarUbiLocations.fromJson(Map<String, dynamic> json) =>
+      MarUbiLocations(
+        ubiNames: json["ubi_nombre"],
       );
 
   Map<String, dynamic> toJson() => {
-        "ubi_nombre": ubiNombre,
+        "ubi_nombre": ubiNames,
       };
 }

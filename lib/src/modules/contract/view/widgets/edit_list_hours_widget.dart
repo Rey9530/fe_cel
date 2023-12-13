@@ -60,7 +60,7 @@ class _ItemHoursWidget extends StatelessWidget {
                       children: [
                         Image.asset("assets/icons/borrarred.png"),
                         Text(
-                          'Eliminar ${schedule.horNombre}',
+                          'Eliminar ${schedule.horName}',
                           style: const TextStyle(color: error),
                         ),
                       ],
@@ -82,8 +82,8 @@ class _ItemHoursWidget extends StatelessWidget {
                           BtnWidget(
                             title: "Si, Eliminar",
                             width: 200,
-                            onPress: () async {
-                              await Provider.of<ContractsProvider>(context,
+                            onPress: () {
+                              Provider.of<ContractsProvider>(context,
                                       listen: false)
                                   .deleteSchedule(schedule.horCodigo);
 
@@ -102,7 +102,7 @@ class _ItemHoursWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  for (var day in schedule.marHdeDetalleHo)
+                  for (var day in schedule.marHdeDetailHo)
                     _DayItemWidget(item: day),
                 ],
               ),
@@ -124,7 +124,7 @@ class _ItemHoursWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10, right: 10),
             color: Colors.white,
             child: Text(
-              schedule.horNombre,
+              schedule.horName,
               style: TextStyle(
                 color: getTheme(context).primary,
                 fontWeight: FontWeight.w600,
@@ -180,7 +180,7 @@ class _DayItemWidget extends StatelessWidget {
   const _DayItemWidget({
     required this.item,
   });
-  final MarHdeDetalleHo item;
+  final MarHdeDetailHo item;
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +196,7 @@ class _DayItemWidget extends StatelessWidget {
             height: 40,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: (item.hdeInicio1.isEmpty || item.hdeFin1.isEmpty)
+              color: (item.hdeStart1.isEmpty || item.hdeFin1.isEmpty)
                   ? colorContainers
                   : getTheme(context).primary,
               border: Border.all(
@@ -208,14 +208,14 @@ class _DayItemWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (item.hdeInicio1.isNotEmpty && item.hdeFin1.isNotEmpty) ...[
+                if (item.hdeStart1.isNotEmpty && item.hdeFin1.isNotEmpty) ...[
                   Image.asset("assets/icons/check_white.png"),
                   const SizedBox(width: 5),
                 ],
                 Text(
-                  item.marDiaDias.diaNombre,
+                  item.marDiaDias.diaName,
                   style: TextStyle(
-                    color: (item.hdeInicio1.isEmpty || item.hdeFin1.isEmpty)
+                    color: (item.hdeStart1.isEmpty || item.hdeFin1.isEmpty)
                         ? Colors.black
                         : Colors.white,
                     fontWeight: FontWeight.w600,
@@ -234,15 +234,15 @@ class _DayItemWidget extends StatelessWidget {
               label: "Entrada",
               hinText: '00:00',
               controller: TextEditingController(
-                text: convertTimeToAmPm(item.hdeInicio1),
+                text: convertTimeToAmPm(item.hdeStart1),
               ),
               onChange: (valor) {},
               suffixIcon: InkWell(
                 onTap: () {
                   var dialog = _DialogTimeWidget(
-                    currentTime: convertTimeToAmPm(item.hdeInicio1),
+                    currentTime: convertTimeToAmPm(item.hdeStart1),
                     onChange: (String valor) {
-                      item.hdeInicio1 = valor;
+                      item.hdeStart1 = valor;
                       provider.notifyListens();
                     },
                   );
@@ -296,16 +296,14 @@ class _DayItemWidget extends StatelessWidget {
               label: "Entrada",
               hinText: '00:00',
               controller: TextEditingController(
-                  text: convertTimeToAmPm(item.hdeInicio2)),
-              onChange: (valor) {
-                // provider.validarInput();
-              },
+                  text: convertTimeToAmPm(item.hdeStart2)),
+              onChange: (valor) {},
               suffixIcon: InkWell(
                 onTap: () {
                   var dialog = _DialogTimeWidget(
-                    currentTime: convertTimeToAmPm(item.hdeInicio2),
+                    currentTime: convertTimeToAmPm(item.hdeStart2),
                     onChange: (String valor) {
-                      item.hdeInicio2 = valor;
+                      item.hdeStart2 = valor;
                       provider.notifyListens();
                     },
                   );
@@ -326,9 +324,7 @@ class _DayItemWidget extends StatelessWidget {
               hinText: '00:00',
               controller:
                   TextEditingController(text: convertTimeToAmPm(item.hdeFin2)),
-              onChange: (valor) {
-                // provider.validarInput();
-              },
+              onChange: (valor) {},
               suffixIcon: InkWell(
                 onTap: () {
                   var dialog = _DialogTimeWidget(
@@ -358,15 +354,15 @@ class _DialogTimeWidget extends StatelessWidget {
   final Function(String) onChange;
   final String currentTime;
   final hora = TextEditingController();
-  final minutos = TextEditingController();
-  final turno = TextEditingController(text: 'AM');
+  final minutes = TextEditingController();
+  final turn = TextEditingController(text: 'AM');
   @override
   Widget build(BuildContext context) {
     var split = currentTime.split(":");
     if (split.length > 1) {
       hora.text = split[0];
-      minutos.text = split[1][0] + split[1][1];
-      turno.text = split[1][2] + split[1][3];
+      minutes.text = split[1][0] + split[1][1];
+      turn.text = split[1][2] + split[1][3];
     }
 
     return AlertDialog(
@@ -453,7 +449,7 @@ class _DialogTimeWidget extends StatelessWidget {
                           ),
                           isDark: true,
                           label: '',
-                          controller: minutos,
+                          controller: minutes,
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(2),
                             MaskTextInputFormatter(
@@ -474,9 +470,9 @@ class _DialogTimeWidget extends StatelessWidget {
                     ),
                   ),
                   AMPMWidget(
-                    value: turno.text,
+                    value: turn.text,
                     onChange: (String valor) {
-                      turno.text = valor;
+                      turn.text = valor;
                     },
                   )
                 ],
@@ -506,10 +502,10 @@ class _DialogTimeWidget extends StatelessWidget {
             InkWell(
               onTap: () {
                 var h = hora.text.length == 1 ? "0${hora.text}" : hora.text;
-                var m = minutos.text.length == 1
-                    ? "0${minutos.text}"
-                    : minutos.text;
-                onChange("$h:$m${turno.text}");
+                var m = minutes.text.length == 1
+                    ? "0${minutes.text}"
+                    : minutes.text;
+                onChange("$h:$m${turn.text}");
                 Navigator.pop(context);
               },
               child: Text(

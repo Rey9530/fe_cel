@@ -3,8 +3,8 @@ import 'package:marcacion_admin/src/common/helpers/helpers.dart';
 import 'package:marcacion_admin/src/common/services/services.dart';
 
 class GoBackWidget extends StatelessWidget {
-  const GoBackWidget({super.key, this.functionn});
-  final Function? functionn;
+  const GoBackWidget({super.key, this.function});
+  final Function? function;
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +12,8 @@ class GoBackWidget extends StatelessWidget {
       width: 200,
       child: InkWell(
         onTap: () {
-          if (functionn != null) {
-            functionn!();
+          if (function != null) {
+            function!();
           } else {
             NavigationService.goBack();
           }
@@ -28,7 +28,10 @@ class GoBackWidget extends StatelessWidget {
             const SizedBox(width: 10),
             const Text(
               "Regresar",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
             )
           ],
         ),

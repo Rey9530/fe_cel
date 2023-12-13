@@ -26,7 +26,7 @@ class EmployesResponse {
 }
 
 class RespData {
-  final List<Employe> employes;
+  final List<Employee> employes;
   final Pagination pagination;
 
   RespData({
@@ -35,8 +35,8 @@ class RespData {
   });
 
   factory RespData.fromJson(Map<String, dynamic> json) => RespData(
-        employes: List<Employe>.from(
-            json["employes"].map((x) => Employe.fromJson(x))),
+        employes: List<Employee>.from(
+            json["employes"].map((x) => Employee.fromJson(x))),
         pagination: Pagination.fromJson(json["pagination"]),
       );
 
@@ -46,214 +46,213 @@ class RespData {
       };
 }
 
-class Employe {
+class Employee {
   final String empCodigo;
   final String empCodigoEmp;
-  final String empFechaNacimiento;
+  final String empBirthDate;
   final String empNombres;
   final String empApellidos;
-  final String empEstado;
-  final DateTime empFeccrea;
-  final DateTime empFecmod;
-  final String empUsrcrea;
-  final String empUsrmod;
-  final String empCodgen;
-  final String empCodemp;
-  final String empCodubi;
-  final String empCodcon;
-  final MarGenGeneros marGenGeneros;
-  final List<dynamic> marAsiAsignacion;
-  final MarConContrataciones marConContrataciones;
-  final MarUbiUbicaciones marUbiUbicaciones;
+  final String empStatus;
+  final DateTime empFecCreate;
+  final DateTime empFecUpdate;
+  final String empUsrCreate;
+  final String empUsrUpdate;
+  final String empCodGen;
+  final String empCodEmp;
+  final String empCodUbi;
+  final String empCodCon;
+  final MarGenGenders marGenGenders;
+  final List<dynamic> marAsiAssignation;
+  final MarConContractions marConContractions;
+  final MarUbiLocations marUbiLocations;
 
-  Employe({
+  Employee({
     required this.empCodigo,
     required this.empCodigoEmp,
-    required this.empFechaNacimiento,
+    required this.empBirthDate,
     required this.empNombres,
     required this.empApellidos,
-    required this.empEstado,
-    required this.empFeccrea,
-    required this.empFecmod,
-    required this.empUsrcrea,
-    required this.empUsrmod,
-    required this.empCodgen,
-    required this.empCodemp,
-    required this.empCodubi,
-    required this.empCodcon,
-    required this.marGenGeneros,
-    required this.marAsiAsignacion,
-    required this.marConContrataciones,
-    required this.marUbiUbicaciones,
+    required this.empStatus,
+    required this.empFecCreate,
+    required this.empFecUpdate,
+    required this.empUsrCreate,
+    required this.empUsrUpdate,
+    required this.empCodGen,
+    required this.empCodEmp,
+    required this.empCodUbi,
+    required this.empCodCon,
+    required this.marGenGenders,
+    required this.marAsiAssignation,
+    required this.marConContractions,
+    required this.marUbiLocations,
   });
 
-  factory Employe.fromJson(Map<String, dynamic> json) => Employe(
+  factory Employee.fromJson(Map<String, dynamic> json) => Employee(
         empCodigo: json["emp_codigo"],
         empCodigoEmp: json["emp_codigo_emp"],
-        empFechaNacimiento: DateFormat("dd/MM/y")
+        empBirthDate: DateFormat("dd/MM/y")
             .format(DateTime.parse(json["emp_fecha_nacimiento"])),
         empNombres: json["emp_nombres"],
         empApellidos: json["emp_apellidos"],
-        empEstado: json["emp_estado"],
-        empFeccrea: DateTime.parse(json["emp_feccrea"]),
-        empFecmod: DateTime.parse(json["emp_fecmod"]),
-        empUsrcrea: json["emp_usrcrea"],
-        empUsrmod: json["emp_usrmod"],
-        empCodgen: json["emp_codgen"],
-        empCodemp: json["emp_codemp"],
-        empCodubi: json["emp_codubi"],
-        empCodcon: json["emp_codcon"],
-        marGenGeneros: MarGenGeneros.fromJson(json["mar_gen_generos"]),
-        marAsiAsignacion:
+        empStatus: json["emp_estado"],
+        empFecCreate: DateTime.parse(json["emp_feccrea"]),
+        empFecUpdate: DateTime.parse(json["emp_fecmod"]),
+        empUsrCreate: json["emp_usrcrea"],
+        empUsrUpdate: json["emp_usrmod"],
+        empCodGen: json["emp_codgen"],
+        empCodEmp: json["emp_codemp"],
+        empCodUbi: json["emp_codubi"],
+        empCodCon: json["emp_codcon"],
+        marGenGenders: MarGenGenders.fromJson(json["mar_gen_generos"]),
+        marAsiAssignation:
             List<dynamic>.from(json["mar_asi_asignacion"].map((x) => x)),
-        marConContrataciones:
-            MarConContrataciones.fromJson(json["mar_con_contrataciones"]),
-        marUbiUbicaciones:
-            MarUbiUbicaciones.fromJson(json["mar_ubi_ubicaciones"]),
+        marConContractions:
+            MarConContractions.fromJson(json["mar_con_contrataciones"]),
+        marUbiLocations: MarUbiLocations.fromJson(json["mar_ubi_ubicaciones"]),
       );
 
   Map<String, dynamic> toJson() => {
         "emp_codigo": empCodigo,
         "emp_codigo_emp": empCodigoEmp,
-        "emp_fecha_nacimiento": empFechaNacimiento,
+        "emp_fecha_nacimiento": empBirthDate,
         "emp_nombres": empNombres,
         "emp_apellidos": empApellidos,
-        "emp_estado": empEstado,
-        "emp_feccrea": empFeccrea.toIso8601String(),
-        "emp_fecmod": empFecmod.toIso8601String(),
-        "emp_usrcrea": empUsrcrea,
-        "emp_usrmod": empUsrmod,
-        "emp_codgen": empCodgen,
-        "emp_codemp": empCodemp,
-        "emp_codubi": empCodubi,
-        "emp_codcon": empCodcon,
-        "mar_gen_generos": marGenGeneros.toJson(),
+        "emp_estado": empStatus,
+        "emp_feccrea": empFecCreate.toIso8601String(),
+        "emp_fecmod": empFecUpdate.toIso8601String(),
+        "emp_usrcrea": empUsrCreate,
+        "emp_usrmod": empUsrUpdate,
+        "emp_codgen": empCodGen,
+        "emp_codemp": empCodEmp,
+        "emp_codubi": empCodUbi,
+        "emp_codcon": empCodCon,
+        "mar_gen_generos": marGenGenders.toJson(),
         "mar_asi_asignacion":
-            List<dynamic>.from(marAsiAsignacion.map((x) => x)),
-        "mar_con_contrataciones": marConContrataciones.toJson(),
-        "mar_ubi_ubicaciones": marUbiUbicaciones.toJson(),
+            List<dynamic>.from(marAsiAssignation.map((x) => x)),
+        "mar_con_contrataciones": marConContractions.toJson(),
+        "mar_ubi_ubicaciones": marUbiLocations.toJson(),
       };
 }
 
-class MarConContrataciones {
+class MarConContractions {
   final String conCodigo;
   final String conNombre;
-  final String conEstado;
-  final DateTime conFeccrea;
-  final DateTime conFecmod;
-  final String conUsrcrea;
-  final String conUsrmod;
+  final String conStatus;
+  final DateTime conFecCreate;
+  final DateTime conFecUpdate;
+  final String conUsrCreate;
+  final String conUsrUpdate;
 
-  MarConContrataciones({
+  MarConContractions({
     required this.conCodigo,
     required this.conNombre,
-    required this.conEstado,
-    required this.conFeccrea,
-    required this.conFecmod,
-    required this.conUsrcrea,
-    required this.conUsrmod,
+    required this.conStatus,
+    required this.conFecCreate,
+    required this.conFecUpdate,
+    required this.conUsrCreate,
+    required this.conUsrUpdate,
   });
 
-  factory MarConContrataciones.fromJson(Map<String, dynamic> json) =>
-      MarConContrataciones(
+  factory MarConContractions.fromJson(Map<String, dynamic> json) =>
+      MarConContractions(
         conCodigo: json["con_codigo"],
         conNombre: json["con_nombre"],
-        conEstado: json["con_estado"],
-        conFeccrea: DateTime.parse(json["con_feccrea"]),
-        conFecmod: DateTime.parse(json["con_fecmod"]),
-        conUsrcrea: json["con_usrcrea"],
-        conUsrmod: json["con_usrmod"],
+        conStatus: json["con_estado"],
+        conFecCreate: DateTime.parse(json["con_feccrea"]),
+        conFecUpdate: DateTime.parse(json["con_fecmod"]),
+        conUsrCreate: json["con_usrcrea"],
+        conUsrUpdate: json["con_usrmod"],
       );
 
   Map<String, dynamic> toJson() => {
         "con_codigo": conCodigo,
         "con_nombre": conNombre,
-        "con_estado": conEstado,
-        "con_feccrea": conFeccrea.toIso8601String(),
-        "con_fecmod": conFecmod.toIso8601String(),
-        "con_usrcrea": conUsrcrea,
-        "con_usrmod": conUsrmod,
+        "con_estado": conStatus,
+        "con_feccrea": conFecCreate.toIso8601String(),
+        "con_fecmod": conFecUpdate.toIso8601String(),
+        "con_usrcrea": conUsrCreate,
+        "con_usrmod": conUsrUpdate,
       };
 }
 
-class MarGenGeneros {
+class MarGenGenders {
   final String genCodigo;
   final String genNombre;
-  final String genEstado;
-  final DateTime genFeccrea;
-  final DateTime genFecmod;
-  final String genUsrcrea;
-  final String genUsrmod;
+  final String genStatus;
+  final DateTime genFecCreate;
+  final DateTime genFecUpdate;
+  final String genUsrCreate;
+  final String genUsrUpdate;
 
-  MarGenGeneros({
+  MarGenGenders({
     required this.genCodigo,
     required this.genNombre,
-    required this.genEstado,
-    required this.genFeccrea,
-    required this.genFecmod,
-    required this.genUsrcrea,
-    required this.genUsrmod,
+    required this.genStatus,
+    required this.genFecCreate,
+    required this.genFecUpdate,
+    required this.genUsrCreate,
+    required this.genUsrUpdate,
   });
 
-  factory MarGenGeneros.fromJson(Map<String, dynamic> json) => MarGenGeneros(
+  factory MarGenGenders.fromJson(Map<String, dynamic> json) => MarGenGenders(
         genCodigo: json["gen_codigo"],
         genNombre: json["gen_nombre"],
-        genEstado: json["gen_estado"],
-        genFeccrea: DateTime.parse(json["gen_feccrea"]),
-        genFecmod: DateTime.parse(json["gen_fecmod"]),
-        genUsrcrea: json["gen_usrcrea"],
-        genUsrmod: json["gen_usrmod"],
+        genStatus: json["gen_estado"],
+        genFecCreate: DateTime.parse(json["gen_feccrea"]),
+        genFecUpdate: DateTime.parse(json["gen_fecmod"]),
+        genUsrCreate: json["gen_usrcrea"],
+        genUsrUpdate: json["gen_usrmod"],
       );
 
   Map<String, dynamic> toJson() => {
         "gen_codigo": genCodigo,
         "gen_nombre": genNombre,
-        "gen_estado": genEstado,
-        "gen_feccrea": genFeccrea.toIso8601String(),
-        "gen_fecmod": genFecmod.toIso8601String(),
-        "gen_usrcrea": genUsrcrea,
-        "gen_usrmod": genUsrmod,
+        "gen_estado": genStatus,
+        "gen_feccrea": genFecCreate.toIso8601String(),
+        "gen_fecmod": genFecUpdate.toIso8601String(),
+        "gen_usrcrea": genUsrCreate,
+        "gen_usrmod": genUsrUpdate,
       };
 }
 
-class MarUbiUbicaciones {
+class MarUbiLocations {
   final String ubiCodigo;
   final String ubiNombre;
-  final String ubiEstado;
-  final DateTime ubiFeccrea;
-  final DateTime ubiFecmod;
-  final String ubiUsrcrea;
-  final String ubiUsrmod;
+  final String ubiStatus;
+  final DateTime ubiFecCreate;
+  final DateTime ubiFecUpdate;
+  final String ubiUsrCreate;
+  final String ubiUsrUpdate;
 
-  MarUbiUbicaciones({
+  MarUbiLocations({
     required this.ubiCodigo,
     required this.ubiNombre,
-    required this.ubiEstado,
-    required this.ubiFeccrea,
-    required this.ubiFecmod,
-    required this.ubiUsrcrea,
-    required this.ubiUsrmod,
+    required this.ubiStatus,
+    required this.ubiFecCreate,
+    required this.ubiFecUpdate,
+    required this.ubiUsrCreate,
+    required this.ubiUsrUpdate,
   });
 
-  factory MarUbiUbicaciones.fromJson(Map<String, dynamic> json) =>
-      MarUbiUbicaciones(
+  factory MarUbiLocations.fromJson(Map<String, dynamic> json) =>
+      MarUbiLocations(
         ubiCodigo: json["ubi_codigo"],
         ubiNombre: json["ubi_nombre"],
-        ubiEstado: json["ubi_estado"],
-        ubiFeccrea: DateTime.parse(json["ubi_feccrea"]),
-        ubiFecmod: DateTime.parse(json["ubi_fecmod"]),
-        ubiUsrcrea: json["ubi_usrcrea"],
-        ubiUsrmod: json["ubi_usrmod"],
+        ubiStatus: json["ubi_estado"],
+        ubiFecCreate: DateTime.parse(json["ubi_feccrea"]),
+        ubiFecUpdate: DateTime.parse(json["ubi_fecmod"]),
+        ubiUsrCreate: json["ubi_usrcrea"],
+        ubiUsrUpdate: json["ubi_usrmod"],
       );
 
   Map<String, dynamic> toJson() => {
         "ubi_codigo": ubiCodigo,
         "ubi_nombre": ubiNombre,
-        "ubi_estado": ubiEstado,
-        "ubi_feccrea": ubiFeccrea.toIso8601String(),
-        "ubi_fecmod": ubiFecmod.toIso8601String(),
-        "ubi_usrcrea": ubiUsrcrea,
-        "ubi_usrmod": ubiUsrmod,
+        "ubi_estado": ubiStatus,
+        "ubi_feccrea": ubiFecCreate.toIso8601String(),
+        "ubi_fecmod": ubiFecUpdate.toIso8601String(),
+        "ubi_usrcrea": ubiUsrCreate,
+        "ubi_usrmod": ubiUsrUpdate,
       };
 }
 

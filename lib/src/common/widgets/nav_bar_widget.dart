@@ -5,8 +5,8 @@ import 'package:marcacion_admin/src/common/services/services.dart';
 import 'package:marcacion_admin/src/modules/auth/viewmodel/auth_provider.dart';
 import 'package:provider/provider.dart';
 
-class BreadCrumWidget extends StatelessWidget {
-  const BreadCrumWidget({
+class BreadCrumbsWidget extends StatelessWidget {
+  const BreadCrumbsWidget({
     super.key,
     required this.title,
     this.showLogout = true,

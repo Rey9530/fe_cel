@@ -26,59 +26,58 @@ class ListHoursCtrResponse {
 
 class ListHoursCtr {
   final String horCodigo;
-  final String horNombre;
-  final List<MarHdeDetalleHo> marHdeDetalleHo;
+  final String horName;
+  final List<MarHdeDetailHo> marHdeDetailHo;
 
   ListHoursCtr({
     required this.horCodigo,
-    required this.horNombre,
-    required this.marHdeDetalleHo,
+    required this.horName,
+    required this.marHdeDetailHo,
   });
 
   factory ListHoursCtr.fromJson(Map<String, dynamic> json) => ListHoursCtr(
         horCodigo: json["hor_codigo"],
-        horNombre: json["hor_nombre"],
-        marHdeDetalleHo: List<MarHdeDetalleHo>.from(
-            json["mar_hde_detalle_ho"].map((x) => MarHdeDetalleHo.fromJson(x))),
+        horName: json["hor_nombre"],
+        marHdeDetailHo: List<MarHdeDetailHo>.from(
+            json["mar_hde_detalle_ho"].map((x) => MarHdeDetailHo.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "hor_codigo": horCodigo,
-        "hor_nombre": horNombre,
+        "hor_nombre": horName,
         "mar_hde_detalle_ho":
-            List<dynamic>.from(marHdeDetalleHo.map((x) => x.toJson())),
+            List<dynamic>.from(marHdeDetailHo.map((x) => x.toJson())),
       };
 }
 
-class MarHdeDetalleHo {
+class MarHdeDetailHo {
   String hdeCodigo;
   String hdeCodhor;
-  String horCoddia;
-  String hdeInicio1;
+  String horCodDay;
+  String hdeStart1;
   String hdeFin1;
-  String hdeInicio2;
+  String hdeStart2;
   String hdeFin2;
   final MarDiaDias marDiaDias;
 
-  MarHdeDetalleHo({
+  MarHdeDetailHo({
     required this.hdeCodigo,
     required this.hdeCodhor,
-    required this.horCoddia,
-    required this.hdeInicio1,
+    required this.horCodDay,
+    required this.hdeStart1,
     required this.hdeFin1,
-    required this.hdeInicio2,
+    required this.hdeStart2,
     required this.hdeFin2,
     required this.marDiaDias,
   });
 
-  factory MarHdeDetalleHo.fromJson(Map<String, dynamic> json) =>
-      MarHdeDetalleHo(
+  factory MarHdeDetailHo.fromJson(Map<String, dynamic> json) => MarHdeDetailHo(
         hdeCodigo: json["hde_codigo"],
         hdeCodhor: json["hde_codhor"],
-        horCoddia: json["hor_coddia"],
-        hdeInicio1: json["hde_inicio_1"],
+        horCodDay: json["hor_coddia"],
+        hdeStart1: json["hde_inicio_1"],
         hdeFin1: json["hde_fin_1"],
-        hdeInicio2: json["hde_inicio_2"],
+        hdeStart2: json["hde_inicio_2"],
         hdeFin2: json["hde_fin_2"],
         marDiaDias: MarDiaDias.fromJson(json["mar_dia_dias"]),
       );
@@ -86,10 +85,10 @@ class MarHdeDetalleHo {
   Map<String, dynamic> toJson() => {
         "hde_codigo": hdeCodigo,
         "hde_codhor": hdeCodhor,
-        "hor_coddia": horCoddia,
-        "hde_inicio_1": hdeInicio1,
+        "hor_coddia": horCodDay,
+        "hde_inicio_1": hdeStart1,
         "hde_fin_1": hdeFin1,
-        "hde_inicio_2": hdeInicio2,
+        "hde_inicio_2": hdeStart2,
         "hde_fin_2": hdeFin2,
         "mar_dia_dias": marDiaDias.toJson(),
       };
@@ -97,24 +96,24 @@ class MarHdeDetalleHo {
 
 class MarDiaDias {
   final String diaCodigo;
-  final String diaNombre;
+  final String diaName;
   final String diaDiaCodigo;
 
   MarDiaDias({
     required this.diaCodigo,
-    required this.diaNombre,
+    required this.diaName,
     required this.diaDiaCodigo,
   });
 
   factory MarDiaDias.fromJson(Map<String, dynamic> json) => MarDiaDias(
         diaCodigo: json["dia_codigo"],
-        diaNombre: json["dia_nombre"],
+        diaName: json["dia_nombre"],
         diaDiaCodigo: json["dia_dia_codigo"],
       );
 
   Map<String, dynamic> toJson() => {
         "dia_codigo": diaCodigo,
-        "dia_nombre": diaNombre,
+        "dia_nombre": diaName,
         "dia_dia_codigo": diaDiaCodigo,
       };
 }

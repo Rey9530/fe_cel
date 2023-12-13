@@ -85,7 +85,7 @@ class _FormLoginWidgetState extends State<_FormLoginWidget> {
               ),
               const SizedBox(height: 20),
               TextFormFieldCustomWidget(
-                autofocus: true,
+                autoFocus: true,
                 onFieldSubmitted: (_) => onFormSubmit(providerAuth),
                 cursorColor: Colors.white,
                 label: "Código de empleado",

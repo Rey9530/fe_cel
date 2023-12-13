@@ -40,15 +40,14 @@ class SchedulesBodyWidget extends StatelessWidget {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          BreadCrumWidget(
-            title:
-                'Contratos / ${provider.contract?.ctrNombre ?? ''} / Horarios',
+          BreadCrumbsWidget(
+            title: 'Contratos / ${provider.contract?.ctrName ?? ''} / Horarios',
           ),
           const SizedBox(height: 50),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: GoBackWidget(
-              functionn: () {
+              function: () {
                 NavigationService.replaceTo(Flurorouter.contractsRoute);
               },
             ),
