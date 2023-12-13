@@ -68,7 +68,6 @@ class DioConexion {
       if (e.response != null) {
         if (e.response?.data != null) {
           msg = ErrorResponse.fromJson(e.response?.data);
-          NotificationsService.showSnackbarError(msg.message);
         } else {
           msg = ErrorResponse(
             time: DateTime.now(),
