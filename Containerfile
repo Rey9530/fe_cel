@@ -1,4 +1,4 @@
-FROM nginx:1.25.3
+FROM docker.io/nginx:1.25.3
 COPY ./build/web /usr/share/nginx/app
 # Set permissions for the copied directory
 RUN chown -R nginx:nginx /usr/share/nginx/app
