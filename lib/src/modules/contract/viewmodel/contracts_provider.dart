@@ -1,3 +1,6 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
+
 import 'package:flutter/material.dart';
 import 'package:marcacion_admin/src/common/services/services.dart';
 import 'package:marcacion_admin/src/common/helpers/helpers.dart';
@@ -22,6 +25,17 @@ class ContractsProvider extends ChangeNotifier {
   bool isReady = false;
   bool loading = false;
   int total = 0;
+
+  ContractsProvider() {
+    var date = DateTime.now();
+    var monthStart = date.month > 9 ? date.month : "0${date.month}";
+    var dayStart = date.day > 9 ? date.day : "0${date.day}";
+    startDateFilter.text = "$dayStart/$monthStart/${date.year}";
+
+    var monthEnd = date.month > 9 ? date.month : "0${date.month}";
+    var dayEnd = date.day > 9 ? date.day : "0${date.day}";
+    endDateFilter.text = "$dayEnd/$monthEnd/${date.year}";
+  }
 
   changeIsExtendable(valor) {
     isExtendable = valor;
@@ -100,6 +114,69 @@ class ContractsProvider extends ChangeNotifier {
     }
   }
 
+  List<MakingItem> emplmakingsCtr = [];
+  Future<bool> getMakingsContracts([load = false]) async {
+    try {
+      if (load) {
+        loading = true;
+        notifyListeners();
+      }
+      final resp = await DioConnection.get_(
+        '/markings/list/contract/${contract!.ctrCodigo}',
+        {
+          "date_start": startDateFilter.text,
+          "date_end": endDateFilter.text,
+        },
+      );
+      final response = MakingCtrResponse.fromJson(resp);
+      emplmakingsCtr = response.data;
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      if (load) {
+        loading = false;
+        notifyListeners();
+      }
+    }
+  }
+
+  Future<bool> generateExcelMakingsContracts() async {
+    try {
+      loading = true;
+      notifyListeners();
+      // var dir = await getApplicationDocumentsDirectory();
+      // await dio.download("http://tu-api.com/excel/download", savePath);
+      var data = await DioConnection.getExcel(
+        '/markings/excel/contract/${companyFilter.text}',
+        {
+          "date_start": startDateFilter.text,
+          "date_end": endDateFilter.text,
+        },
+      );
+
+      final blob = html.Blob(
+        [data],
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      );
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      var dateTime = DateTime.now().millisecondsSinceEpoch;
+      html.AnchorElement(href: url)
+        ..setAttribute('download', 'asistencia_$dateTime.xlsx')
+        ..click();
+
+      // Limpiar
+      html.Url.revokeObjectUrl(url);
+
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      loading = false;
+      notifyListeners();
+    }
+  }
+
   loadData(uui) async {
     uuid = uui;
     await getCompanies();
@@ -153,6 +230,20 @@ class ContractsProvider extends ChangeNotifier {
     await getRegister();
     await getEmpContracts();
     await getHoursContracts(uuid ?? '');
+    employees = [];
+    if (contract == null) {
+      NavigationService.replaceTo(Flurorouter.contractsRoute);
+    }
+  }
+
+  var startDateFilter = TextEditingController();
+  var endDateFilter = TextEditingController();
+  var companyFilter = TextEditingController();
+  loadMakings(uui) async {
+    uuid = uui;
+    if (uuid == null) NavigationService.replaceTo(Flurorouter.contractsRoute);
+    await getRegister();
+    await getMakingsContracts();
     employees = [];
     if (contract == null) {
       NavigationService.replaceTo(Flurorouter.contractsRoute);
@@ -328,11 +419,9 @@ class ContractsProvider extends ChangeNotifier {
       };
       if (uuid != null) {
         await DioConnection.put_('/contracts/$uuid', data);
-        NotificationsService.showSnackbarSuccess("Contrato Actualizado");
-        NavigationService.goBack();
+        NavigationService.navigateTo("/contracts/schedules/$uuid");
       } else {
         var res = await DioConnection.post_('/contracts', data);
-        NotificationsService.showSnackbarSuccess("Contrato creado");
         NavigationService.navigateTo(
           "/contracts/schedules/${res["data"]["ctr_codigo"]}",
         );
