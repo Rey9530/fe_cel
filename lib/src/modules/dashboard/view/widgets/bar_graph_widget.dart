@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:marcacion_admin/src/common/const/const.dart';
+import 'package:marcacion_admin/src/modules/dashboard/viewmodel/dashboard_provider.dart';
+import 'package:provider/provider.dart';
 
 class LineChartAsisten extends StatefulWidget {
   const LineChartAsisten({super.key});
@@ -14,6 +16,7 @@ class _LineChartAsistenState extends State<LineChartAsisten> {
 
   @override
   Widget build(BuildContext context) {
+    var provDash = Provider.of<DashboardProvider>(context);
     return Column(
       children: [
         Row(
@@ -32,7 +35,7 @@ class _LineChartAsistenState extends State<LineChartAsisten> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 const Text(
-                  "90% ",
+                  "0% ",
                   style: TextStyle(
                     color: colortext,
                     fontWeight: FontWeight.w700,
@@ -49,7 +52,7 @@ class _LineChartAsistenState extends State<LineChartAsisten> {
                     borderRadius: BorderRadius.circular(22),
                   ),
                   child: const Text(
-                    " +5.2% ",
+                    " 0% ",
                     style: TextStyle(
                       color: success,
                       fontSize: 18,
@@ -75,7 +78,7 @@ class _LineChartAsistenState extends State<LineChartAsisten> {
                   " vs el mes anterior",
                   style: TextStyle(
                     color: colortext,
-                    fontWeight: FontWeight.w600, 
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
@@ -92,7 +95,7 @@ class _LineChartAsistenState extends State<LineChartAsisten> {
               top: 24,
               bottom: 12,
             ),
-            child: LineChart(mainData()),
+            child: LineChart(mainData(provDash)),
           ),
         ),
       ],
@@ -199,7 +202,7 @@ class _LineChartAsistenState extends State<LineChartAsisten> {
     return Text(text, style: style, textAlign: TextAlign.left);
   }
 
-  LineChartData mainData() {
+  LineChartData mainData(provDash) {
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -254,16 +257,21 @@ class _LineChartAsistenState extends State<LineChartAsisten> {
       maxY: 10,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2, 2),
-            FlSpot(3, 8),
-            FlSpot(4, 7),
-            FlSpot(5, 6),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
+          spots: [
+            FlSpot(
+                1,
+                double.parse(double.parse(provDash.time?.onTime != null &&
+                        provDash.time?.total != null
+                    ? ((provDash.time!.onTime / provDash.time!.total) * 10)
+                        .toString()
+                    : '0').toStringAsFixed(3))),
+            // FlSpot(0, 0),
+            // FlSpot(0, 0),
+            // FlSpot(0, 0),
+            // FlSpot(0, 0),
+            // FlSpot(0, 0),
+            // FlSpot(0, 0),
+            // FlSpot(0, 0),
           ],
           isStepLineChart: false,
           isCurved: false,

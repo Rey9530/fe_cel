@@ -21,16 +21,6 @@ class MakingCtrResponse {
         status: json["status"],
         message: json["message"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(
-          data.map(
-            (x) => x.toJson(),
-          ),
-        ),
-        "status": status,
-        "message": message,
-      };
 }
 
 class MakingItem {
@@ -41,8 +31,11 @@ class MakingItem {
   final String entrada;
   final String salida;
   final String fecha;
+  final String sede;
   final String tiempoExtra;
   final String tiempoTrabajado;
+  final bool salidaTemprana;
+  final bool entradaTardia;
 
   MakingItem({
     required this.nombres,
@@ -52,13 +45,17 @@ class MakingItem {
     required this.entrada,
     required this.salida,
     required this.fecha,
+    required this.sede,
     required this.tiempoExtra,
     required this.tiempoTrabajado,
+    required this.salidaTemprana,
+    required this.entradaTardia,
   });
 
   factory MakingItem.fromJson(Map<String, dynamic> json) => MakingItem(
         nombres: json["nombres"],
         apellidos: json["apellidos"],
+        sede: json["sede"],
         codigo: json["codigo"],
         id: json["id"],
         entrada: json["entrada"] != null
@@ -76,16 +73,7 @@ class MakingItem {
         fecha: json["fecha"] != null
             ? DateFormat("dd/MM/y").format(DateTime.parse(json["fecha"]))
             : "",
+        salidaTemprana: json["salida_temprana"] ?? false,
+        entradaTardia: json["entrada_tardia"] ?? false,
       );
-
-  Map<String, dynamic> toJson() => {
-        "nombres": nombres,
-        "apellidos": apellidos,
-        "codigo": codigo,
-        "id": id,
-        "entrada": entrada,
-        "salida": salida,
-        "tiempo_extra": tiempoExtra,
-        "tiempo_trabajado": tiempoTrabajado,
-      };
 }

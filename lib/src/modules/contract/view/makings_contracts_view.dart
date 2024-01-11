@@ -44,7 +44,7 @@ class MakingsBodyWidget extends StatelessWidget {
         children: [
           BreadCrumbsWidget(
             title:
-                'Contratos / ${provider.contract?.ctrName ?? ''} / Marcaciones',
+                'Contratos / ${(provider.contract!.ctrName.length > 35 ? "${provider.contract!.ctrName.substring(0, 35)}..." : provider.contract?.ctrName) ?? ''} / Marcaciones',
           ),
           const SizedBox(height: 50),
           Padding(
@@ -59,7 +59,7 @@ class MakingsBodyWidget extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: Text(
-              "Has una búsqueda de los empleados que han marcado.",
+              "Has uso de los filtros para tener busquedas mas exactas.",
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 18,
@@ -113,6 +113,12 @@ class CustomTableWidget extends StatelessWidget {
                 child: _titleText('Empleado'),
               ),
               Container(
+                width: 50,
+                padding: EdgeInsets.symmetric(vertical: 20),
+                alignment: Alignment.center,
+                child: _titleText('Fecha'),
+              ),
+              Container(
                 padding: EdgeInsets.symmetric(vertical: 20),
                 alignment: Alignment.center,
                 child: _titleText('Entrada'),
@@ -125,8 +131,8 @@ class CustomTableWidget extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(vertical: 20),
                 alignment: Alignment.center,
-                child: _titleText('Fecha'),
-              ),
+                child: _titleText('Sede'),
+              ), 
             ],
           ),
           for (var item in provider.emplmakingsCtr)
@@ -143,19 +149,25 @@ class CustomTableWidget extends StatelessWidget {
                   child: _contentText('${item.nombres} ${item.apellidos}'),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
-                  alignment: Alignment.center,
-                  child: _contentText(item.entrada),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
-                  alignment: Alignment.center,
-                  child: _contentText(item.salida),
-                ),
-                Container(
+                width: 50,
                   padding: EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.center,
                   child: _contentText(item.fecha),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  alignment: Alignment.center,
+                  child: _contentText(item.entrada, item.entradaTardia),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  alignment: Alignment.center,
+                  child: _contentText(item.salida, item.salidaTemprana),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  alignment: Alignment.center,
+                  child: _contentText(item.sede),
                 ),
               ],
             ),
@@ -173,10 +185,10 @@ class CustomTableWidget extends StatelessWidget {
         ),
       );
 
-  Text _contentText(title) => Text(
+  Text _contentText(title, [isRed = false]) => Text(
         title,
         style: TextStyle(
-          color: primary,
+          color: isRed ? error : primary,
           fontWeight: FontWeight.w300,
         ),
       );
@@ -193,7 +205,7 @@ class FiltersWidget extends StatelessWidget {
     return Row(
       children: [
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10 ),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           width: 200,
           child: TextFormFieldCustomWidget(
             inputFormatters: [
@@ -277,7 +289,7 @@ class FiltersWidget extends StatelessWidget {
             // provider.saveEmploye();
             await provider.getMakingsContracts(true);
           },
-        ), 
+        ),
       ],
     );
   }

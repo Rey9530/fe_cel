@@ -8,6 +8,8 @@ class DashboardProvider extends ChangeNotifier {
   double totalGender = 0;
   List<ContrationChart> contrationsChart = [];
   double totalContration = 0;
+  ExtraHours? extraHours;
+  TimeChart? time;
 
   Future getChartsData(id) async {
     if (id == '0' || id == 0) return;
@@ -20,6 +22,8 @@ class DashboardProvider extends ChangeNotifier {
       var resp = await DioConnection.get_('/charts/get/$id');
       var code = ChartResponse.fromJson(resp);
       gendersChart = code.data.genders;
+      extraHours = code.data.extraHours;
+      time = code.data.time;
       for (var element in gendersChart) {
         totalGender = totalGender + element.cantidad;
       }

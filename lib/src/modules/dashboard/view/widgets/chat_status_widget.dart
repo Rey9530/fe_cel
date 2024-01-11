@@ -41,7 +41,7 @@ class _ListaTipesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var provDash = Provider.of<DashboardProvider>(context);
     return Padding(
-      padding: EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 20),
       child: Column(
         children: [
           ...provDash.contrationsChart.map(

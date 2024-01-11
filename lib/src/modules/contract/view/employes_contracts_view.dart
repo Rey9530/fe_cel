@@ -45,7 +45,7 @@ class EmployeesBodyWidget extends StatelessWidget {
         children: [
           BreadCrumbsWidget(
             title:
-                'Contratos / ${provider.contract?.ctrName ?? ''} / Empleados',
+                'Contratos / ${(provider.contract!.ctrName.length > 35 ? "${provider.contract!.ctrName.substring(0, 35)}..." : provider.contract?.ctrName) ?? ''} / Marcaciones',
           ),
           const SizedBox(height: 50),
           Padding(
