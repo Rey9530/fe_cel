@@ -9,15 +9,17 @@ import 'package:marcacion_admin/src/modules/employees/viewmodel/employes_provide
 import 'package:provider/provider.dart';
 
 class EmployesTDS extends DataTableSource {
-  final List<Employee> companies;
+  final List<Employee> employes;
   final BuildContext context;
   final int total;
 
-  EmployesTDS(this.companies, this.context, this.total);
+  EmployesTDS(this.employes, this.context, this.total);
 
   @override
   DataRow? getRow(int index) {
-    final employe = companies[index];
+    final dynamic employe = employes[index];
+    print(employes.length);
+    if (employe == null) return null;
     return DataRow.byIndex(
       color:
           MaterialStateColor.resolveWith((states) => const Color(0XFFFFFFFF)),

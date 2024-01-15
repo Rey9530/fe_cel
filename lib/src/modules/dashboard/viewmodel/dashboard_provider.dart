@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marcacion_admin/src/common/helpers/helpers.dart';
-import 'package:marcacion_admin/src/modules/dashboard/view/models/chart_mode.dart';
+import 'package:marcacion_admin/src/modules/dashboard/models/chart_mode.dart';
 
 class DashboardProvider extends ChangeNotifier {
   bool loading = false;
@@ -8,6 +8,7 @@ class DashboardProvider extends ChangeNotifier {
   double totalGender = 0;
   List<ContrationChart> contrationsChart = [];
   double totalContration = 0;
+  List<TimeMonth> months = [];
   ExtraHours? extraHours;
   TimeChart? time;
 
@@ -23,6 +24,7 @@ class DashboardProvider extends ChangeNotifier {
       var code = ChartResponse.fromJson(resp);
       gendersChart = code.data.genders;
       extraHours = code.data.extraHours;
+      months = code.data.months;
       time = code.data.time;
       for (var element in gendersChart) {
         totalGender = totalGender + element.cantidad;
@@ -31,12 +33,8 @@ class DashboardProvider extends ChangeNotifier {
       for (var element in contrationsChart) {
         totalContration = totalContration + element.cantidad;
       }
-      for (var element in contrationsChart) {
-        print((element.cantidad / totalContration));
-      }
       return true;
     } catch (e) {
-      print(e.toString());
       return false;
     } finally {
       loading = false;

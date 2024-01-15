@@ -104,11 +104,11 @@ class _ListEmployestWidgetState extends State<_ListEmployestWidget> {
                   provider.total,
                 ),
                 onPageChanged: (value) async {
-                  provider.quantity = value;
+                  provider.quantity = value > 0 ? value : 10;
                   await provider.getEmployes(true);
                 },
                 onRowsPerPageChanged: (value) async {
-                  provider.quantity = value ?? 10;
+                  provider.quantity = (value != null && value > 0) ? value : 10;
                   await provider.getEmployes(true);
                   setState(() {
                     _rowsPerPage = value ?? 10;

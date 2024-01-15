@@ -252,26 +252,17 @@ class _LineChartAsistenState extends State<LineChartAsisten> {
         border: Border.all(color: const Color(0XFF37434D)),
       ),
       minX: 0,
-      maxX: 11,
+      maxX: 12,
       minY: 0,
       maxY: 10,
       lineBarsData: [
         LineChartBarData(
           spots: [
-            FlSpot(
-                1,
-                double.parse(double.parse(provDash.time?.onTime != null &&
-                        provDash.time?.total != null
-                    ? ((provDash.time!.onTime / provDash.time!.total) * 10)
-                        .toString()
-                    : '0').toStringAsFixed(3))),
-            // FlSpot(0, 0),
-            // FlSpot(0, 0),
-            // FlSpot(0, 0),
-            // FlSpot(0, 0),
-            // FlSpot(0, 0),
-            // FlSpot(0, 0),
-            // FlSpot(0, 0),
+            for (var item in provDash.months)
+              FlSpot(
+                item.index,
+                item.onTime > 0 ? ((item.onTime / item.total) * 10) : 0,
+              )
           ],
           isStepLineChart: false,
           isCurved: false,
