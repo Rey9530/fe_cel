@@ -5,6 +5,7 @@ const museoSans = 'MuseoSans';
 
 ///Colors Principales
 const primary = Color(0XFF0C223F);
+const primaryv2 = Color(0XFF0A2240);
 const secondary = Color(0XFF313945);
 const secondary40 = Color(0XFFF3F3F4);
 const secondary80 = Color(0XFF6C7178);
@@ -32,7 +33,6 @@ const borderColorContainers = Color(0XFF1E3350);
 const colorContainers = Color(0XFFF1F2F2);
 
 const disabledIcons = Color(0XFFD2D2D2);
-
 
 const colortext = Color(0XFF6F6F6F);
 

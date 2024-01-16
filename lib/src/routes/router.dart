@@ -15,6 +15,7 @@ class Flurorouter {
   // Auth Router
   static String loginRoute = '/auth/login';
   static String dashboardRoute = '/dashboard';
+  static String extraHoursRoute = '/dashboard/extra-hours/:uuid';
   static String employesRoute = '/employes';
   static String employeAddRoute = '/employes/create';
   static String employeEditRoute = '/employes/update/:uuid';
@@ -46,6 +47,12 @@ class Flurorouter {
     router.define(
       dashboardRoute,
       handler: DashboardHandlers.dashboard,
+      transitionType: transitionType,
+    );
+
+    router.define(
+      extraHoursRoute,
+      handler: DashboardHandlers.extrahours,
       transitionType: transitionType,
     );
 

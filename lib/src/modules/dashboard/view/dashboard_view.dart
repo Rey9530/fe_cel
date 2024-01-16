@@ -85,11 +85,15 @@ class EmployeeOntimeWidget extends StatelessWidget {
       title: 'Marcaciones a tiempo',
       icon: 'user_check.svg',
       valor1: provDash.time?.onTime.toString() ?? '0',
-      valor2: '',//provDash.time?.total.toString() ?? '0',
-      valor3:double.parse( provDash.time?.onTime != null && provDash.time?.total != null
-          ? ((provDash.time!.onTime / provDash.time!.total) * 100).toString()
-          : '0').toStringAsFixed(2),
-      color: (provDash.time?.onTime.toString() ?? '0') == '0' ? primary : success,
+      valor2: '', //provDash.time?.total.toString() ?? '0',
+      valor3: double.parse(
+              provDash.time?.onTime != null && provDash.time?.total != null
+                  ? ((provDash.time!.onTime / provDash.time!.total) * 100)
+                      .toString()
+                  : '0')
+          .toStringAsFixed(2),
+      color:
+          (provDash.time?.onTime.toString() ?? '0') == '0' ? primary : success,
     );
   }
 }
@@ -106,10 +110,13 @@ class EmployeeLaetWidget extends StatelessWidget {
       title: 'Marcaciones con retraso',
       icon: 'user_minus.svg',
       valor1: provDash.time?.inLate.toString() ?? '0',
-      valor2: '',//provDash.time?.total.toString() ?? '0',
-      valor3:double.parse( provDash.time?.inLate != null && provDash.time?.total != null
-          ? ((provDash.time!.inLate / provDash.time!.total) * 100).toString()
-          : '0').toStringAsFixed(2),
+      valor2: '', //provDash.time?.total.toString() ?? '0',
+      valor3: double.parse(
+              provDash.time?.inLate != null && provDash.time?.total != null
+                  ? ((provDash.time!.inLate / provDash.time!.total) * 100)
+                      .toString()
+                  : '0')
+          .toStringAsFixed(2),
       color: (provDash.time?.inLate.toString() ?? '0') == '0' ? primary : error,
     );
   }
@@ -138,6 +145,18 @@ class EmployeeExtrasHoursWidget extends StatelessWidget {
       color: (provDash.extraHours?.extraHoursC.toString() ?? '0') == '0'
           ? primary
           : success,
+      iconRight: provDash.companyFilter.length > 10
+          ? InkWell(
+              onTap: () {
+                NavigationService.replaceTo(
+                    "dashboard/extra-hours/${provDash.companyFilter}");
+              },
+              child: SvgPicture.asset(
+                "assets/svg/alarm_red.svg",
+                semanticsLabel: 'Empleados horas extra',
+              ),
+            )
+          : null,
     );
   }
 }
@@ -224,6 +243,7 @@ class Employees1Widget extends StatelessWidget {
     this.valor2 = "",
     this.valor3 = "",
     this.color = primary,
+    this.iconRight,
   });
   final String title;
   final String icon;
@@ -231,13 +251,14 @@ class Employees1Widget extends StatelessWidget {
   final String valor1;
   final String valor2;
   final String valor3;
+  final Widget? iconRight;
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 350,
       height: 350,
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 50),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -245,8 +266,13 @@ class Employees1Widget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image.asset("assets/icons/$icon"),
-          SvgPicture.asset("assets/svg/$icon", semanticsLabel: 'Acme Logo'),
+          Row(
+            children: [
+              SvgPicture.asset("assets/svg/$icon", semanticsLabel: title),
+              const Spacer(),
+              if (iconRight != null) iconRight!,
+            ],
+          ),
           Text(
             title,
             style: TextStyle(

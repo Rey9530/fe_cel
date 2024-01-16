@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:marcacion_admin/src/common/const/const.dart';
@@ -67,12 +65,12 @@ class MakingsBodyWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 40),
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: FiltersWidget(),
           ),
           const SizedBox(height: 10),
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: CustomTableWidget(),
           ),
@@ -92,9 +90,9 @@ class CustomTableWidget extends StatelessWidget {
     var provider = Provider.of<ContractsProvider>(context);
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(20.0),
       child: Table(
-        border: TableBorder.all(color: Color(0XFFEFEFEF)),
+        border: TableBorder.all(color: const Color(0XFFEFEFEF)),
         children: [
           TableRow(
             decoration: BoxDecoration(
@@ -103,69 +101,69 @@ class CustomTableWidget extends StatelessWidget {
             ),
             children: [
               Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 alignment: Alignment.center,
                 child: _titleText('Código de empleado'),
               ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 alignment: Alignment.center,
                 child: _titleText('Empleado'),
               ),
               Container(
                 width: 50,
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 alignment: Alignment.center,
                 child: _titleText('Fecha'),
               ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 alignment: Alignment.center,
                 child: _titleText('Entrada'),
               ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 alignment: Alignment.center,
                 child: _titleText('Salida'),
               ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 alignment: Alignment.center,
                 child: _titleText('Sede'),
-              ), 
+              ),
             ],
           ),
           for (var item in provider.emplmakingsCtr)
             TableRow(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.center,
                   child: _contentText(item.codigo),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.centerLeft,
                   child: _contentText('${item.nombres} ${item.apellidos}'),
                 ),
                 Container(
-                width: 50,
-                  padding: EdgeInsets.symmetric(vertical: 5),
+                  width: 50,
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.center,
                   child: _contentText(item.fecha),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.center,
                   child: _contentText(item.entrada, item.entradaTardia),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.center,
                   child: _contentText(item.salida, item.salidaTemprana),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.center,
                   child: _contentText(item.sede),
                 ),
@@ -178,7 +176,7 @@ class CustomTableWidget extends StatelessWidget {
 
   Text _titleText(title) => Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           color: primary,
           fontWeight: FontWeight.w600,
           fontSize: 16,
@@ -267,7 +265,7 @@ class FiltersWidget extends StatelessWidget {
                 var data = await showDatePicker(
                   context: context,
                   firstDate: DateTime(1900),
-                  lastDate: DateTime.now().add(Duration(days: 30)),
+                  lastDate: DateTime.now().add(const Duration(days: 30)),
                   initialEntryMode: DatePickerEntryMode.calendarOnly,
                   locale: const Locale('es', 'ES'),
                 );
