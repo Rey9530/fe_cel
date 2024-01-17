@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class RespExtraHours {
   DataHoursExtra data;
   int status;
@@ -93,7 +95,9 @@ class PorProcesar {
         hisTpExtraApro: json["his_tp_extra_apro"],
         hisFeccreacion: json["his_feccreacion"],
         empEstado: json["emp_estado"],
-        hisFeccrea: json["his_feccrea"],
+        hisFeccrea: json["his_feccrea"] != null
+            ? DateFormat("dd/MM/y").format(DateTime.parse(json["his_feccrea"]))
+            : "",
         hisFecmod: json["his_fecmod"],
         hisUsrcrea: json["his_usrcrea"],
         hisUsrmod: json["his_usrmod"],

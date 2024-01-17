@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:marcacion_admin/src/common/const/const.dart';
 import 'package:marcacion_admin/src/common/helpers/helpers.dart';
 import 'package:marcacion_admin/src/common/widgets/widgets.dart';
 import 'package:marcacion_admin/src/modules/contract/viewmodel/contracts_provider.dart';
+import 'package:marcacion_admin/src/modules/dashboard/models/extra_hours_model.dart';
 import 'package:marcacion_admin/src/modules/dashboard/viewmodel/dashboard_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +24,7 @@ class ExtraHoursView extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator(color: primary));
         } else {
-          return const BodyExtraHoursWidget();
+          return BodyExtraHoursWidget(uuid: uuid);
         }
       },
     );
@@ -30,23 +32,22 @@ class ExtraHoursView extends StatelessWidget {
 }
 
 class BodyExtraHoursWidget extends StatelessWidget {
-  const BodyExtraHoursWidget({
-    super.key,
-  });
+  const BodyExtraHoursWidget({super.key, this.uuid});
+  final String? uuid;
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            BreadCrumbsWidget(
+            const BreadCrumbsWidget(
               title: 'Dashboard / Horas extras',
             ),
-            SizedBox(height: 20),
-            SizedBox(
+            const SizedBox(height: 20),
+            const SizedBox(
               width: double.infinity,
               child: Text(
                 "En esta sección podrás autorizar o rechazar las horas extras que hayan sido registradas a partir de la hora de salida de marcación después del horario asignado de cada colaborador.",
@@ -58,8 +59,8 @@ class BodyExtraHoursWidget extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
             ),
-            SizedBox(height: 40),
-            Row(
+            const SizedBox(height: 40),
+            const Row(
               children: [
                 _SearchTextfieldWidget(),
                 Spacer(),
@@ -67,9 +68,11 @@ class BodyExtraHoursWidget extends StatelessWidget {
                 Spacer(),
               ],
             ),
-            SizedBox(height: 40),
-            TabsCustomWidget(),
-            _CustomTableWidget(),
+            const SizedBox(height: 40),
+            const TabsCustomWidget(),
+            _CustomTableWidget(
+              uuid: uuid,
+            ),
           ],
         ),
       ),
@@ -256,13 +259,13 @@ class _SearchTextfieldWidgetState extends State<_SearchTextfieldWidget> {
 }
 
 class _CustomTableWidget extends StatelessWidget {
-  const _CustomTableWidget();
-
+  const _CustomTableWidget({this.uuid});
+  final String? uuid;
   @override
   Widget build(BuildContext context) {
     var provDash = Provider.of<DashboardProvider>(context, listen: false);
     return FutureBuilder(
-      future: provDash.getHoursExtra(),
+      future: provDash.getHoursExtra(uuid),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator(color: primary));
@@ -281,7 +284,15 @@ class BodyTableWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provDash = Provider.of<DashboardProvider>(context, listen: false);
+    var provDash = Provider.of<DashboardProvider>(context);
+    List<PorProcesar> dataTable = [];
+    if (provDash.tabActive == '1') {
+      dataTable = provDash.porProcesar;
+    } else if (provDash.tabActive == '2') {
+      dataTable = provDash.validadas;
+    } else if (provDash.tabActive == '3') {
+      dataTable = provDash.rechazadas;
+    }
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.only(top: 10),
@@ -297,11 +308,13 @@ class BodyTableWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 alignment: Alignment.center,
+                width: 50,
                 child: _titleText('Nombres'),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 alignment: Alignment.center,
+                width: 50,
                 child: _titleText('Apellidos'),
               ),
               Container(
@@ -313,41 +326,48 @@ class BodyTableWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 alignment: Alignment.center,
+                width: 50,
                 child: _titleText('Sede\nasignada'),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 alignment: Alignment.center,
+                width: 50,
                 child: _titleText('Fecha'),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 alignment: Alignment.center,
+                width: 50,
                 child: _titleText('Código\nde empleado'),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 alignment: Alignment.center,
+                width: 50,
                 child: _titleText('Horas a\nvalidar'),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 alignment: Alignment.center,
+                width: 50,
                 child: _titleText('Acciones'),
               ),
             ],
           ),
-          for (var item in provDash.porProcesar)
+          for (var item in dataTable)
             TableRow(
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.center,
+                  width: 50,
                   child: _contentText(item.nombre),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.centerLeft,
+                  width: 50,
                   child: _contentText(item.apellidos),
                 ),
                 Container(
@@ -371,17 +391,153 @@ class BodyTableWidget extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.center,
+                  width: 50,
                   child: _contentText(item.codigoEmpleado),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.center,
+                  width: 50,
                   child: _contentText(item.hisTpExtra),
                 ),
                 Container(
+                  width: 50,
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   alignment: Alignment.center,
-                  child: _contentText("Acciones"),
+                  child: item.hisTpExtraApro != 'PENDIENTE'
+                      ? const SizedBox()
+                      : Row(
+                          children: [
+                            const SizedBox(width: 6),
+                            BtnWidget(
+                              width: 90,
+                              title: 'Validar',
+                              onPress: () {
+                                final dialog = AlertDialog(
+                                  backgroundColor: Colors.white,
+                                  surfaceTintColor: Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(16.0),
+                                    ),
+                                  ),
+                                  title: Column(
+                                    children: [
+                                      SvgPicture.asset("assets/svg/alarm.svg"),
+                                      const Text(
+                                        'Validar horas extras',
+                                        style: TextStyle(color: primary),
+                                      ),
+                                    ],
+                                  ),
+                                  content: const SizedBox(
+                                    width: 350,
+                                    child: Text(
+                                      '¿Confirmas que deseas validar las horas\nextras de este usuario?',
+                                      style: TextStyle(color: primary),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        BtnOutlineWidget(
+                                          title: 'Cancelar',
+                                          onPress: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                        const SizedBox(width: 20),
+                                        BtnWidget(
+                                          title: "Si, validar",
+                                          width: 150,
+                                          onPress: () async {
+                                            await provDash
+                                                .changeStatusHoursExtra(
+                                                    item.hisCodigo, 'APROBADO');
+                                            // ignore: use_build_context_synchronously
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+
+                                showDialog(
+                                    context: context, builder: (_) => dialog);
+                              },
+                            ),
+                            const SizedBox(width: 6),
+                            BtnOutlineWidget(
+                              width: 90,
+                              title: 'Rechazar',
+                              onPress: () {
+                                final dialog = AlertDialog(
+                                  backgroundColor: Colors.white,
+                                  surfaceTintColor: Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(16.0),
+                                    ),
+                                  ),
+                                  title: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                          "assets/svg/alarm_red.svg"),
+                                      const Text(
+                                        'Rechazar horas extras',
+                                        style: TextStyle(color: error),
+                                      ),
+                                    ],
+                                  ),
+                                  content: const SizedBox(
+                                    width: 350,
+                                    child: Text(
+                                      '¿Confirmas que deseas rechazar las horas\nextras de este usuario?',
+                                      style: TextStyle(color: primary),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        BtnOutlineWidget(
+                                          title: 'Cancelar',
+                                          onPress: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                        const SizedBox(width: 20),
+                                        BtnWidget(
+                                          title: "Si, rechazar",
+                                          width: 150,
+                                          onPress: () async {
+                                            await provDash
+                                                .changeStatusHoursExtra(
+                                              item.hisCodigo,
+                                              'RECHAZADO',
+                                            );
+                                            // ignore: use_build_context_synchronously
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+
+                                showDialog(
+                                    context: context, builder: (_) => dialog);
+                              },
+                            ),
+                            const SizedBox(width: 6),
+                          ],
+                        ),
                 ),
               ],
             ),

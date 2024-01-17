@@ -53,14 +53,15 @@ class DashboardProvider extends ChangeNotifier {
   List<PorProcesar> porProcesar = [];
   List<PorProcesar> validadas = [];
   List<PorProcesar> rechazadas = [];
-  Future getHoursExtra() async {
+  var uuidContrarct = '';
+  Future getHoursExtra(uuid) async {
+    uuidContrarct = uuid;
     try {
       if (loading) return;
       totalGender = 0;
       totalContration = 0;
       loading = true;
-      var resp =
-          await DioConnection.get_('/markings/list/extra-hours/$companyFilter');
+      var resp = await DioConnection.get_('/markings/list/extra-hours/$uuid');
       var code = RespExtraHours.fromJson(resp);
       porProcesar = code.data.porProcesar;
       validadas = code.data.validadas;
@@ -71,6 +72,26 @@ class DashboardProvider extends ChangeNotifier {
     } finally {
       loading = false;
       notifyListeners();
+    }
+  }
+
+  Future changeStatusHoursExtra(uuid, status) async {
+    try {
+      if (loading) return;
+      totalGender = 0;
+      totalContration = 0;
+      loading = true;
+      await DioConnection.put_(
+        '/markings/status/extra-hours/$uuid',
+        {"status": status},
+      );
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      loading = false;
+      notifyListeners();
+      await getHoursExtra(uuidContrarct);
     }
   }
 }
