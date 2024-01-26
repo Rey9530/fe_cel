@@ -250,7 +250,8 @@ class ListComaniesWidget extends StatelessWidget {
       width: 500,
       child: FutureBuilder(
         future: provider.getCompanies(),
-        builder: (BuildContext context, AsyncSnapshot<List<Company>> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<List<Companyitem>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SizedBox(
               width: 50,

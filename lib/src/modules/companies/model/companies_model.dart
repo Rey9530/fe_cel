@@ -1,17 +1,17 @@
-class CompaniesResponse {
-  final List<Company> data;
+class CompaniesRes {
+  final List<Companyitem> data;
   final int status;
   final String message;
 
-  CompaniesResponse({
+  CompaniesRes({
     required this.data,
     required this.status,
     required this.message,
   });
 
-  factory CompaniesResponse.fromJson(Map<String, dynamic> json) =>
-      CompaniesResponse(
-        data: List<Company>.from(json["data"].map((x) => Company.fromJson(x))),
+  factory CompaniesRes.fromJson(Map<String, dynamic> json) => CompaniesRes(
+        data: List<Companyitem>.from(
+            json["data"].map((x) => Companyitem.fromJson(x))),
         status: json["status"],
         message: json["message"],
       );
@@ -23,7 +23,7 @@ class CompaniesResponse {
       };
 }
 
-class Company {
+class Companyitem {
   final String eprCode;
   final String eprName;
   final String eprAddress;
@@ -37,7 +37,7 @@ class Company {
   final String eprStatus;
   final String eprCodUsr;
 
-  Company({
+  Companyitem({
     required this.eprCode,
     required this.eprName,
     required this.eprAddress,
@@ -52,7 +52,7 @@ class Company {
     required this.eprCodUsr,
   });
 
-  factory Company.fromJson(Map<String, dynamic> json) => Company(
+  factory Companyitem.fromJson(Map<String, dynamic> json) => Companyitem(
         eprCode: json["epr_codigo"],
         eprName: json["epr_nombre"],
         eprAddress: json["epr_direccion"],

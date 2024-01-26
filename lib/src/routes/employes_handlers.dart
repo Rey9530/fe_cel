@@ -2,6 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:marcacion_admin/src/common/services/services.dart';
 import 'package:marcacion_admin/src/modules/auth/viewmodel/provider_auth.dart';
 import 'package:marcacion_admin/src/modules/employees/view/add_employes_view.dart';
+import 'package:marcacion_admin/src/modules/employees/view/permissions_employes_view.dart';
 import 'package:marcacion_admin/src/modules/views.dart';
 import 'package:marcacion_admin/src/routes/router.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +42,19 @@ class EmployesHandlers {
     if (authProvider.authStatus == AuthStatus.authenticated) {
       String? uuid = params['uuid']?.first;
       return AddEmployeeView(uuid: uuid);
+    } else {
+      return const LoginView();
+    }
+  });
+
+  static Handler permissionsEmploye = Handler(handlerFunc: (context, params) {
+    final authProvider = Provider.of<AuthProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.employePermissionRoute);
+
+    if (authProvider.authStatus == AuthStatus.authenticated) {
+      String? uuid = params['uuid']?.first;
+      return PermissionsEmployeeView(uuid: uuid);
     } else {
       return const LoginView();
     }

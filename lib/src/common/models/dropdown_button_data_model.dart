@@ -6,4 +6,7 @@ class DropdownButtonData {
     required this.title,
     required this.id,
   });
+  String nameString() {
+    return title;
+  }
 }

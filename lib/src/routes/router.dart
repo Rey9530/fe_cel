@@ -19,6 +19,7 @@ class Flurorouter {
   static String employesRoute = '/employes';
   static String employeAddRoute = '/employes/create';
   static String employeEditRoute = '/employes/update/:uuid';
+  static String employePermissionRoute = '/employes/permissions/:uuid';
   static String companiesRoute = '/companies';
   static String userProfileRoute = '/profile';
   static String reportsRoute = '/reports';
@@ -30,7 +31,7 @@ class Flurorouter {
   static String contractsMarkingsRoute = '/contracts/markings/:uuid';
 
   static void configureRoutes() {
-    TransitionType transitionType = TransitionType.none;
+    TransitionType transitionType = TransitionType.fadeIn;
     // Auth Routes
     router.define(
       rootRoute,
@@ -76,6 +77,14 @@ class Flurorouter {
       handler: EmployesHandlers.editEmploye,
       transitionType: transitionType,
     );
+
+    // ADMIN permissions to employees
+    router.define(
+      employePermissionRoute,
+      handler: EmployesHandlers.permissionsEmploye,
+      transitionType: transitionType,
+    );
+
     // empresas
     router.define(
       companiesRoute,

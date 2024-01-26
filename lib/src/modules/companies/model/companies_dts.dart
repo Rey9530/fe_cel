@@ -6,7 +6,7 @@ import 'package:marcacion_admin/src/modules/companies/viewmodel/companies_provid
 import 'package:provider/provider.dart';
 
 class CompaniesTDS extends DataTableSource {
-  final List<Company> companies;
+  final List<Companyitem> companies;
   final BuildContext context;
 
   CompaniesTDS(this.companies, this.context);

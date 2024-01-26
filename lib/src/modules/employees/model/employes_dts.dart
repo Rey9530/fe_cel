@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:marcacion_admin/src/common/const/const.dart';
 import 'package:marcacion_admin/src/common/services/navigation_service.dart';
 import 'package:marcacion_admin/src/common/widgets/widgets.dart';
@@ -37,6 +38,25 @@ class EmployesTDS extends DataTableSource {
               IconButton(
                 onPressed: () {
                   NavigationService.navigateTo(
+                      "/employes/permissions/${employe.empCodigo}");
+                },
+                icon: Container(
+                  width: 50,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: SvgPicture.asset("assets/svg/calendar.svg"),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 5),
+              IconButton(
+                onPressed: () {
+                  NavigationService.navigateTo(
                       "/employes/update/${employe.empCodigo}");
                 },
                 icon: Container(
@@ -49,7 +69,23 @@ class EmployesTDS extends DataTableSource {
                   child: Image.asset("assets/icons/editarsvg.png"),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 5),
+              IconButton(
+                onPressed: () {
+                  NavigationService.navigateTo(
+                      "/employes/update/${employe.empCodigo}");
+                },
+                icon: Container(
+                  width: 50,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: SvgPicture.asset("assets/svg/ojo.svg"),
+                ),
+              ),
+              const SizedBox(width: 5),
               IconButton(
                 onPressed: () {
                   final dialog = AlertDialog(

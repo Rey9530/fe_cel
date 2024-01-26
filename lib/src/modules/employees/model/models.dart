@@ -8,3 +8,5 @@ export 'package:marcacion_admin/src/modules/employees/model/sedes_model.dart';
 export 'package:marcacion_admin/src/modules/employees/model/employe_model.dart';
 export 'package:marcacion_admin/src/modules/employees/model/contracts_mode.dart';
 export 'package:marcacion_admin/src/modules/employees/model/hours_ctr_mode.dart';
+export 'package:marcacion_admin/src/modules/employees/model/motivos_model.dart';
+export 'package:marcacion_admin/src/modules/employees/model/permissions.model.dart';

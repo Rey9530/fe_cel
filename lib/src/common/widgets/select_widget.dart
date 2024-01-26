@@ -54,6 +54,14 @@ class SelectCompaniesWidgetState extends State<SelectCompaniesWidget> {
     ];
   }
 
+  _getNameItem() {
+    var item = items.where((element) => element.id == dropdownvalue).toList();
+    if (item.isNotEmpty) {
+      return item.first.title;
+    }
+    return widget.title;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -72,15 +80,14 @@ class SelectCompaniesWidgetState extends State<SelectCompaniesWidget> {
               }
             : null,
         decoration: InputDecoration(
-          labelText: widget.title,
+          labelText: widget.isDisable ? _getNameItem() : widget.title,
           errorStyle: const TextStyle(height: 0.4),
           labelStyle: TextStyle(
             color: widget.isDisable
-                ? getTheme(context).tertiary.withOpacity(0.5)
+                ? getTheme(context).tertiary
                 : getTheme(context).primary,
             fontWeight: FontWeight.w400,
           ),
-
           focusedErrorBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               color: error,

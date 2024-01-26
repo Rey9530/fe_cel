@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marcacion_admin/src/common/helpers/helpers.dart';
 import 'package:marcacion_admin/src/common/services/services.dart';
+import 'package:marcacion_admin/src/modules/contract/model/index.dart';
 import 'package:marcacion_admin/src/modules/employees/model/models.dart';
 
 class EmployeesProvider extends ChangeNotifier {
@@ -18,6 +19,14 @@ class EmployeesProvider extends ChangeNotifier {
   var employeeContratacion = TextEditingController(text: "");
   var employeeDateStart = TextEditingController(text: "");
   var employeeDateEnd = TextEditingController(text: "");
+
+  final formKeyPermission = GlobalKey<FormState>();
+  var permissionDateStart = TextEditingController(text: "");
+  var motivoController = TextEditingController(text: "");
+  var permissionDateEnd = TextEditingController(text: "");
+  var employeeReplace = TextEditingController(text: "");
+  var comment = TextEditingController(text: "");
+
   bool isReady = false;
   bool loading = false;
 
@@ -27,6 +36,7 @@ class EmployeesProvider extends ChangeNotifier {
   List<Contratation> contratations = [];
   List<Gender> genders = [];
   List<ContractsEmp> contractsEmp = [];
+  List<PermissionsItem> permissions = [];
 
   int page = 1;
   int quantity = 10;
@@ -68,10 +78,24 @@ class EmployeesProvider extends ChangeNotifier {
     }
   }
 
+  Future getEmployeePermissions([load = true]) async {
+    permissionDateStart = TextEditingController();
+    permissionDateEnd = TextEditingController();
+    employeeReplace = TextEditingController();
+    comment = TextEditingController();
+    motivoController = TextEditingController();
+    if (load) await getMotivos();
+    if (load) await getCatalogs();
+    await getPermissions();
+    if (load) await getEmployee();
+  }
+
+  late Employee employee;
   Future<bool> getEmployee() async {
     try {
       final resp = await DioConnection.get_('/employes/$uuid');
       final response = EmployeeResponse.fromJson(resp).data;
+      employee = response;
       employeeCode = response.empCodigoEmp;
       employeeName = TextEditingController(text: response.empNombres);
       employeeSurname = TextEditingController(text: response.empApellidos);
@@ -100,6 +124,31 @@ class EmployeesProvider extends ChangeNotifier {
       return false;
     } finally {
       notifyListeners();
+    }
+  }
+
+  List<EmployeesContract> employees = [];
+  Future<List<EmployeesContract>> getEmployees(
+    querySearch,
+  ) async {
+    if (querySearch.length < 3) {
+      return [];
+    }
+    try {
+      final resp = await DioConnection.get_(
+        '/contracts/get/employes/${employeeContact.text}',
+        {
+          "page": 1,
+          "quantity": 10,
+          "query": querySearch,
+          "company": employeeCompany.text,
+        },
+      );
+      final response = EmployeesContractResponse.fromJson(resp);
+      return response.data;
+    } catch (e) {
+      print(e);
+      return [];
     }
   }
 
@@ -170,6 +219,69 @@ class EmployeesProvider extends ChangeNotifier {
     }
   }
 
+  Future generatePermision() async {
+    try {
+      if (loading) return;
+      loading = true;
+      notifyListeners();
+      var data = {
+        "per_codmop": motivoController.text,
+        "per_codemp": employee.empCodigo,
+        "per_codemp_reemplazo": employeeReplace.text,
+        "per_fecha_inicio": permissionDateStart.text,
+        "per_fecha_fin": permissionDateEnd.text,
+        "per_comentario": comment.text
+      };
+      await DioConnection.post_('/permissions', data);
+
+      permissionDateStart = TextEditingController();
+      permissionDateEnd = TextEditingController();
+      employeeReplace = TextEditingController();
+      comment = TextEditingController();
+      motivoController = TextEditingController();
+      await getEmployeePermissions();
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      loading = false;
+      notifyListeners();
+    }
+  }
+
+  List<Motivo> listmotivos = [];
+  Future getMotivos() async {
+    try {
+      if (loading) return;
+      loading = true;
+      // notifyListeners();
+      var resp = await DioConnection.get_('/permissions/get/reasons');
+      var code = RespMotivos.fromJson(resp);
+      listmotivos = code.data;
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      loading = false;
+    }
+  }
+
+  Future getPermissions() async {
+    try {
+      if (loading) return;
+      loading = true;
+      // notifyListeners();
+      var resp = await DioConnection.get_('/permissions');
+      var code = PermissionsResp.fromJson(resp);
+      permissions = code.data;
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      loading = false;
+    }
+  }
+
   Future getCatalogs() async {
     try {
       if (loading) return;
@@ -230,10 +342,10 @@ class EmployeesProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<Company>> getCompanies() async {
+  Future<List<Companyitem>> getCompanies() async {
     try {
       var resp = await DioConnection.get_('/companies');
-      return CompaniesResponse.fromJson(resp).data;
+      return CompaniesRes.fromJson(resp).data;
     } catch (e) {
       return [];
     }
@@ -267,6 +379,19 @@ class EmployeesProvider extends ChangeNotifier {
       await DioConnection.delete_('/employes/$id');
       NotificationsService.showSnackbarSuccess("Empleado Eliminada");
       await getEmployes();
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<bool> deleteEmployeePermission(String id) async {
+    try {
+      await DioConnection.delete_('/permissions/$id');
+      NotificationsService.showSnackbarSuccess("Permiso Eliminada");
+      await getPermissions();
       return true;
     } catch (e) {
       return false;

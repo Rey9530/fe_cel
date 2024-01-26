@@ -10,7 +10,7 @@ const secondary = Color(0XFF313945);
 const secondary40 = Color(0XFFF3F3F4);
 const secondary80 = Color(0XFF6C7178);
 const secondary60 = Color(0XFFC1C4C7);
-const tertiary = Color(0XFFD0D2D3);
+const tertiary = Color(0XFFC2C2C2);
 const neutral = Color(0XFF16A4F8);
 const error = Color(0XFFFF4220);
 const precaution = Color(0XFFFF9C02);
@@ -26,6 +26,7 @@ const userCardBackground = Color(0XFFFAFBFB);
 
 //Text <P> color
 const textGray = Color(0XFF454B54);
+const graySecondary = Color(0XFFC2C2C2);
 const textGraySubtitle = Color(0XFF9A9FA0);
 const headerRowTable = Color(0XFFF3F3F4);
 const hinTextPassword = Color(0XFFBBBBBB);

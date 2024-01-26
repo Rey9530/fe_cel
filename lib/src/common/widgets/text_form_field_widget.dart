@@ -17,6 +17,7 @@ class TextFormFieldCustomWidget extends StatefulWidget {
     this.isDark = false,
     this.autoFocus = false,
     this.readOnly = false,
+    this.enable = true,
     this.suffixIcon,
     this.contentPadding,
     this.fontSize,
@@ -33,6 +34,7 @@ class TextFormFieldCustomWidget extends StatefulWidget {
   final bool isDark;
   final bool autoFocus;
   final bool readOnly;
+  final bool enable;
   final Function? onChange;
   final Function(String)? onFieldSubmitted;
   final String label;
@@ -111,11 +113,16 @@ class _TextFormFieldCustomWidgetState extends State<TextFormFieldCustomWidget> {
           }
         },
         style: TextStyle(
-          color: widget.isDark ? getTheme(context).primary : Colors.white,
+          color: widget.isDark
+              ? widget.enable
+                  ? getTheme(context).primary
+                  : graySecondary
+              : Colors.white,
           fontWeight: widget.fontWeight,
           fontSize: widget.fontSize,
         ),
         keyboardType: TextInputType.number,
+        enabled: widget.enable,
         decoration: InputDecoration(
           contentPadding: widget.contentPadding,
           floatingLabelBehavior: widget.floatingLabelBehavior,
@@ -175,6 +182,14 @@ class _TextFormFieldCustomWidgetState extends State<TextFormFieldCustomWidget> {
               width: 1,
             ),
           ),
+          disabledBorder: widget.enable
+              ? null
+              : const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: graySecondary,
+                    width: 1,
+                  ),
+                ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color: widget.isDark ? getTheme(context).primary : Colors.white,
@@ -190,7 +205,9 @@ class _TextFormFieldCustomWidgetState extends State<TextFormFieldCustomWidget> {
           labelStyle: TextStyle(
             color: (_focus.hasFocus || widget.controller.text.isNotEmpty)
                 ? widget.isDark
-                    ? getTheme(context).primary
+                    ? widget.enable
+                        ? getTheme(context).primary
+                        : graySecondary
                     : Colors.white
                 : (widget.isDark ? getTheme(context).primary : Colors.white),
             fontWeight: FontWeight.w600,

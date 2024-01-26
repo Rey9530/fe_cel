@@ -29,7 +29,7 @@ class CompaniesProvider extends ChangeNotifier {
     return isReady;
   }
 
-  edit(Company company) {
+  edit(Companyitem company) {
     id = company.eprCode;
     companyName.text = company.eprName;
     companyAddress.text = company.eprAddress;
@@ -50,11 +50,11 @@ class CompaniesProvider extends ChangeNotifier {
     validInput();
   }
 
-  List<Company> companies = [];
+  List<Companyitem> companies = [];
   Future<bool> getCompanies() async {
     try {
       final resp = await DioConnection.get_('/companies');
-      final response = CompaniesResponse.fromJson(resp);
+      final response = CompaniesRes.fromJson(resp);
       companies = response.data;
       return true;
     } catch (e) {
